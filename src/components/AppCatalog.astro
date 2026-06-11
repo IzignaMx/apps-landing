@@ -1,0 +1,77 @@
+---
+import AppCard from './AppCard.astro';
+import { type Locale, getTranslations } from '../i18n';
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const t = getTranslations(locale);
+
+const apps = [
+  {
+    key: 'omnisync',
+    name: t.apps.omnisync.name,
+    description: t.apps.omnisync.shortDesc,
+    platform: t.apps.omnisync.platform,
+    status: t.apps.omnisync.status as 'active' | 'coming',
+    accentColor: '#3b82f6',
+    iconSvg: '<svg class="w-6 h-6" style="filter: brightness(0) invert(1) opacity(0.9);" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" /></svg>',
+    href: '#omnisync',
+  },
+  {
+    key: 'odoo-sync',
+    name: t.apps['odoo-sync'].name,
+    description: t.apps['odoo-sync'].shortDesc,
+    platform: t.apps['odoo-sync'].platform,
+    status: t.apps['odoo-sync'].status as 'active' | 'coming',
+    accentColor: '#10b981',
+  },
+  {
+    key: 'bigcommerce-sync',
+    name: t.apps['bigcommerce-sync'].name,
+    description: t.apps['bigcommerce-sync'].shortDesc,
+    platform: t.apps['bigcommerce-sync'].platform,
+    status: t.apps['bigcommerce-sync'].status as 'active' | 'coming',
+    accentColor: '#ef4444',
+  },
+  {
+    key: 'wordpress-sync',
+    name: t.apps['wordpress-sync'].name,
+    description: t.apps['wordpress-sync'].shortDesc,
+    platform: t.apps['wordpress-sync'].platform,
+    status: t.apps['wordpress-sync'].status as 'active' | 'coming',
+    accentColor: '#0284c7',
+  },
+];
+---
+
+<section id="apps" class="py-16 md:py-24">
+  <div class="max-w-[1280px] mx-auto px-6">
+    <div class="text-center mb-12">
+      <h2 class="font-display text-3xl md:text-4xl font-bold tracking-tight mb-4">
+        {t.catalog.title}
+      </h2>
+      <p class="text-text-secondary max-w-xl mx-auto">
+        {t.catalog.subtitle}
+      </p>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+      {apps.map((app) => (
+        <AppCard
+          name={app.name}
+          description={app.description}
+          platform={app.platform}
+          status={app.status}
+          accentColor={app.accentColor}
+          iconSvg={app.iconSvg}
+          href={app.href}
+          comingSoonLabel={t.catalog.comingSoon}
+          installLabel={t.featured.cta}
+        />
+      ))}
+    </div>
+  </div>
+</section>

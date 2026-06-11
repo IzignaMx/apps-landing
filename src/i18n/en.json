@@ -1,0 +1,96 @@
+{
+  "meta": {
+    "title": "IzignaMx Apps — Apps that power your store",
+    "description": "Professional Shopify apps developed by IzignaMx. Multi-channel sync, price protection, AI-powered suggestions, and more.",
+    "lang": "en"
+  },
+  "nav": {
+    "apps": "Apps",
+    "about": "About",
+    "contact": "Contact"
+  },
+  "hero": {
+    "overline": "IzignaMx Apps",
+    "title": "Apps that power your store",
+    "subtitle": "Professional applications for Shopify and more platforms. Built in Mexico with world-class technology.",
+    "cta": "View Apps",
+    "ctaSecondary": "Meet IzignaMx"
+  },
+  "featured": {
+    "badge": "Under Review — Shopify App Store",
+    "title": "OmniSync",
+    "tagline": "Multi-channel inventory sync with price protection",
+    "description": "Sync your Shopify inventory across Mercado Libre, WhatsApp Business, Amazon, and Instagram. Protect your channel-specific prices with smart locks and advanced pricing rules.",
+    "features": [
+      "4 channels: Mercado Libre, WhatsApp, Amazon, Instagram",
+      "Price protection with per-channel locks",
+      "AI-powered price suggestions",
+      "Real-time analytics and monitoring",
+      "560+ automated tests",
+      "54 API endpoints"
+    ],
+    "pricing": "From $9.99 USD/month",
+    "pricingNote": "Starter plan — 100 products, 1 channel",
+    "cta": "Install on Shopify",
+    "ctaDisabled": "Coming soon to the App Store",
+    "plans": "View plans",
+    "channels": "Channels"
+  },
+  "catalog": {
+    "title": "App Catalog",
+    "subtitle": "Professional solutions for every platform. More apps in development.",
+    "comingSoon": "Coming Soon"
+  },
+  "apps": {
+    "omnisync": {
+      "name": "OmniSync",
+      "shortDesc": "Multi-channel sync with price protection for Shopify.",
+      "platform": "Shopify",
+      "status": "active"
+    },
+    "odoo-sync": {
+      "name": "Odoo Sync",
+      "shortDesc": "Bidirectional sync of inventory, products, and orders with Odoo ERP.",
+      "platform": "Odoo",
+      "status": "coming"
+    },
+    "bigcommerce-sync": {
+      "name": "BigCommerce Sync",
+      "shortDesc": "Multi-channel sync with price protection for BigCommerce.",
+      "platform": "BigCommerce",
+      "status": "coming"
+    },
+    "wordpress-sync": {
+      "name": "WooCommerce Sync",
+      "shortDesc": "Connect WooCommerce with additional marketplaces and sales channels.",
+      "platform": "WordPress / WooCommerce",
+      "status": "coming"
+    }
+  },
+  "trust": {
+    "overline": "Developed by",
+    "title": "Powered by IzignaMx",
+    "description": "We are a Mexican software agency specializing in web development, applications, and enterprise integrations. Every app is designed, developed, and maintained by our team.",
+    "tagline": "Technology that transforms",
+    "stats": {
+      "apps": "Published apps",
+      "tests": "Automated tests",
+      "endpoints": "API endpoints",
+      "clients": "Merchants trust us"
+    },
+    "cta": "Visit izignamx.com"
+  },
+  "footer": {
+    "brand": "Mexican software agency. Development, maintenance, and documentation of e-commerce apps.",
+    "apps": "Apps",
+    "company": "Company",
+    "resources": "Resources",
+    "documentation": "Documentation",
+    "support": "Support",
+    "privacy": "Privacy",
+    "terms": "Terms",
+    "madeBy": "Made by",
+    "rights": "All rights reserved.",
+    "whatsapp": "WhatsApp"
+  }
+}

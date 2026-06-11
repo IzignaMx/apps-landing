@@ -1,0 +1,58 @@
+---
+import { type Locale, getTranslations } from '../i18n';
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const t = getTranslations(locale);
+
+const stats = [
+  { value: '1', label: t.trust.stats.apps },
+  { value: '560+', label: t.trust.stats.tests },
+  { value: '54', label: t.trust.stats.endpoints },
+  { value: '2,500+', label: t.trust.stats.clients },
+];
+---
+
+<section id="about" class="relative py-16 md:py-24 border-t border-border-card">
+  <div class="absolute inset-0 gradient-orb-blue opacity-30 pointer-events-none" aria-hidden="true"></div>
+
+  <div class="relative max-w-[1280px] mx-auto px-6">
+    <div class="text-center mb-12">
+      <span class="inline-block text-xs font-mono text-text-muted uppercase tracking-[0.2em] mb-3">
+        {t.trust.overline}
+      </span>
+      <h2 class="font-display text-3xl md:text-5xl font-black tracking-tight mb-2">
+        <span class="text-text-primary">Powered by </span>
+        <span class="text-text-primary">Izigna</span><span class="text-izigna">Mx</span>
+      </h2>
+      <p class="text-izigna font-medium italic mt-2">"{t.trust.tagline}"</p>
+    </div>
+
+    <div class="max-w-2xl mx-auto text-center mb-12">
+      <p class="text-text-secondary leading-relaxed text-lg">
+        {t.trust.description}
+      </p>
+    </div>
+
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-6 mb-12">
+      {stats.map((stat) => (
+        <div class="text-center p-6 rounded-xl border border-border-card bg-card">
+          <span class="block font-display text-3xl md:text-4xl font-black text-izigna mb-1">
+            {stat.value}
+          </span>
+          <span class="text-sm text-text-muted">{stat.label}</span>
+        </div>
+      ))}
+    </div>
+
+    <div class="text-center">
+      <a href="https://izignamx.com" target="_blank" rel="noopener noreferrer" class="btn-secondary">
+        {t.trust.cta}
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" /></svg>
+      </a>
+    </div>
+  </div>
+</section>

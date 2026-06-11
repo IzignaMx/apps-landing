@@ -1,0 +1,96 @@
+{
+  "meta": {
+    "title": "IzignaMx Apps — Apps que potencian tu tienda",
+    "description": "Apps profesionales para Shopify desarrolladas por IzignaMx. Sincronización multicanal, protección de precios, inteligencia artificial y más.",
+    "lang": "es"
+  },
+  "nav": {
+    "apps": "Apps",
+    "about": "Nosotros",
+    "contact": "Contacto"
+  },
+  "hero": {
+    "overline": "IzignaMx Apps",
+    "title": "Apps que potencian tu tienda",
+    "subtitle": "Aplicaciones profesionales para Shopify y más plataformas. Desarrolladas en México con tecnología de clase mundial.",
+    "cta": "Ver Apps",
+    "ctaSecondary": "Conocer IzignaMx"
+  },
+  "featured": {
+    "badge": "En revisión — Shopify App Store",
+    "title": "OmniSync",
+    "tagline": "Sincronización multicanal con protección de precios",
+    "description": "Sincroniza tu inventario de Shopify entre Mercado Libre, WhatsApp Business, Amazon e Instagram. Protege tus precios por canal con bloqueos inteligentes y reglas avanzadas.",
+    "features": [
+      "4 canales: Mercado Libre, WhatsApp, Amazon, Instagram",
+      "Protección de precios con bloqueo por canal",
+      "Sugerencias de precios con IA",
+      "Analytics y monitoreo en tiempo real",
+      "560+ pruebas automatizadas",
+      "54 endpoints API"
+    ],
+    "pricing": "Desde $9.99 USD/mes",
+    "pricingNote": "Plan Starter — 100 productos, 1 canal",
+    "cta": "Instalar en Shopify",
+    "ctaDisabled": "Próximamente en la App Store",
+    "plans": "Ver planes",
+    "channels": "Canales"
+  },
+  "catalog": {
+    "title": "Catálogo de Apps",
+    "subtitle": "Soluciones profesionales para cada plataforma. Más apps en desarrollo.",
+    "comingSoon": "Próximamente"
+  },
+  "apps": {
+    "omnisync": {
+      "name": "OmniSync",
+      "shortDesc": "Sincronización multicanal con protección de precios para Shopify.",
+      "platform": "Shopify",
+      "status": "active"
+    },
+    "odoo-sync": {
+      "name": "Odoo Sync",
+      "shortDesc": "Sincronización bidireccional de inventario, productos y órdenes con Odoo ERP.",
+      "platform": "Odoo",
+      "status": "coming"
+    },
+    "bigcommerce-sync": {
+      "name": "BigCommerce Sync",
+      "shortDesc": "Sincronización multicanal con protección de precios para BigCommerce.",
+      "platform": "BigCommerce",
+      "status": "coming"
+    },
+    "wordpress-sync": {
+      "name": "WooCommerce Sync",
+      "shortDesc": "Conecta WooCommerce con marketplaces y canales de venta adicionales.",
+      "platform": "WordPress / WooCommerce",
+      "status": "coming"
+    }
+  },
+  "trust": {
+    "overline": "Desarrollado por",
+    "title": "Powered by IzignaMx",
+    "description": "Somos una agencia de software mexicana especializada en desarrollo web, aplicaciones e integraciones empresariales. Cada app es diseñada, desarrollada y mantenida por nuestro equipo.",
+    "tagline": "Technology that transforms",
+    "stats": {
+      "apps": "Apps publicadas",
+      "tests": "Pruebas automatizadas",
+      "endpoints": "Endpoints API",
+      "clients": "Comercios confían en nosotros"
+    },
+    "cta": "Visitar izignamx.com"
+  },
+  "footer": {
+    "brand": "Agencia de software mexicana. Desarrollo, mantenimiento y documentación de apps para e-commerce.",
+    "apps": "Apps",
+    "company": "Empresa",
+    "resources": "Recursos",
+    "documentation": "Documentación",
+    "support": "Soporte",
+    "privacy": "Privacidad",
+    "terms": "Términos",
+    "madeBy": "Desarrollado por",
+    "rights": "Todos los derechos reservados.",
+    "whatsapp": "WhatsApp"
+  }
+}

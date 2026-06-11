@@ -1,0 +1,76 @@
+---
+import '../styles/global.css';
+import { type Locale, getLocaleFromUrl } from '../i18n';
+
+interface Props {
+  title?: string;
+  description?: string;
+  locale?: Locale;
+}
+
+const url = Astro.url;
+const locale = Astro.props.locale || getLocaleFromUrl(url);
+const isEn = locale === 'en';
+
+const title = Astro.props.title || (isEn ? 'IzignaMx Apps — Apps that power your store' : 'IzignaMx Apps — Apps que potencian tu tienda');
+const description = Astro.props.description || (isEn
+  ? 'Professional Shopify apps developed by IzignaMx. Multi-channel sync, price protection, AI-powered suggestions, and more.'
+  : 'Apps profesionales para Shopify desarrolladas por IzignaMx. Sincronización multicanal, protección de precios, inteligencia artificial y más.');
+---
+<!doctype html>
+<html lang={locale} class="scroll-smooth">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content={description} />
+    <meta name="theme-color" content="#0f0f0f" />
+
+    <title>{title}</title>
+
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+    <link rel="preload" href="/fonts/ADAM.CG PRO-webfont.woff2" as="font" type="font/woff2" crossorigin />
+
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://apps.izignamx.com" />
+    <meta property="og:site_name" content="IzignaMx Apps" />
+    <meta property="og:locale" content={locale === 'en' ? 'en_US' : 'es_MX'} />
+    <meta property="og:locale:alternate" content={locale === 'en' ? 'es_MX' : 'en_US'} />
+
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+
+    <script type="application/ld+json" set:html={JSON.stringify({
+      "@context": "https://schema.org",
+      "@type": "Organization",
+      "name": "IzignaMx Apps",
+      "url": "https://apps.izignamx.com",
+      "description": description,
+      "parentOrganization": {
+        "@type": "Organization",
+        "name": "IzignaMx",
+        "url": "https://izignamx.com"
+      },
+      "application": {
+        "@type": "SoftwareApplication",
+        "name": "OmniSync",
+        "applicationCategory": "BusinessApplication",
+        "operatingSystem": "Web",
+        "offers": {
+          "@type": "Offer",
+          "price": "9.99",
+          "priceCurrency": "USD",
+          "description": "Starter plan"
+        }
+      }
+    })} />
+  </head>
+  <body class="min-h-screen bg-bg text-text-primary antialiased">
+    <slot />
+  </body>
+</html>

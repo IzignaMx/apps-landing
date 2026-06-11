@@ -1,0 +1,37 @@
+---
+import { type Locale, getTranslations, getAlternateUrl } from '../i18n';
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const t = getTranslations(locale);
+const altUrl = getAlternateUrl(Astro.url, locale === 'es' ? 'en' : 'es');
+const altLabel = locale === 'es' ? 'EN' : 'ES';
+---
+
+<header class="sticky top-0 z-50 backdrop-blur-xl bg-bg/80 border-b border-border-card">
+  <div class="max-w-[1280px] mx-auto px-6 h-16 flex items-center justify-between">
+    <a href="/" class="flex items-center gap-3 group" aria-label="IzignaMx Apps - Home">
+      <img src="/images/isotipo.png" alt="" width="32" height="32" class="rounded-lg" aria-hidden="true" />
+      <span class="font-display text-lg tracking-tight">
+        <span class="text-text-primary">Izigna</span><span class="text-izigna">Mx</span>
+        <span class="text-text-muted font-body font-normal text-sm ml-1.5">Apps</span>
+      </span>
+    </a>
+
+    <nav class="flex items-center gap-6" aria-label="Main navigation">
+      <a href="#apps" class="text-sm text-text-secondary hover:text-text-primary transition-colors duration-300">{t.nav.apps}</a>
+      <a href="#about" class="text-sm text-text-secondary hover:text-text-primary transition-colors duration-300">{t.nav.about}</a>
+      <a href="https://wa.me/5215512345678" target="_blank" rel="noopener noreferrer" class="text-sm text-text-secondary hover:text-text-primary transition-colors duration-300">{t.nav.contact}</a>
+      <a
+        href={altUrl}
+        class="text-xs font-mono font-medium text-text-muted hover:text-izigna border border-border-card rounded px-2 py-1 transition-colors duration-300"
+        aria-label={`Switch to ${altLabel}`}
+      >
+        {altLabel}
+      </a>
+    </nav>
+  </div>
+</header>

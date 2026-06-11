@@ -1,0 +1,111 @@
+---
+import { type Locale, getTranslations } from '../i18n';
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const t = getTranslations(locale);
+---
+
+<section id="omnisync" class="relative py-16 md:py-24">
+  <div class="max-w-[1280px] mx-auto px-6">
+    <div class="relative rounded-xl border border-border-card bg-card overflow-hidden transition-all duration-300 hover:shadow-[0_0_60px_rgba(59,130,246,0.1)]">
+      <div class="accent-bar bg-service-webdev"></div>
+
+      <div class="absolute top-0 right-0 w-1/2 h-full gradient-orb-blue opacity-50 pointer-events-none" aria-hidden="true"></div>
+
+      <div class="relative p-8 md:p-12">
+        <div class="flex flex-col lg:flex-row gap-10 lg:gap-16">
+          <div class="flex-1">
+            <div class="flex items-center gap-3 mb-4">
+              <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-service-webdev/10 border border-service-webdev/20 text-xs font-mono text-service-webdev">
+                <span class="w-1.5 h-1.5 rounded-full bg-service-webdev animate-pulse"></span>
+                {t.featured.badge}
+              </span>
+            </div>
+
+            <h2 class="font-display text-3xl md:text-5xl font-black tracking-tight mb-2">
+              {t.featured.title}
+            </h2>
+            <p class="text-izigna font-semibold text-lg mb-4">{t.featured.tagline}</p>
+            <p class="text-text-secondary leading-relaxed mb-8 max-w-xl">
+              {t.featured.description}
+            </p>
+
+            <ul class="space-y-3 mb-8">
+              {t.featured.features.map((feature: string) => (
+                <li class="flex items-start gap-3 text-text-secondary">
+                  <svg class="w-5 h-5 text-service-webdev mt-0.5 shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" /></svg>
+                  <span>{feature}</span>
+                </li>
+              ))}
+            </ul>
+
+            <div class="flex flex-col sm:flex-row items-start gap-4">
+              <button disabled class="btn-primary opacity-70 cursor-not-allowed">
+                <svg class="w-5 h-5" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>
+                {t.featured.ctaDisabled}
+              </button>
+              <a href="#plans" class="btn-secondary text-sm">
+                {t.featured.plans}
+              </a>
+            </div>
+          </div>
+
+          <div class="lg:w-[380px] shrink-0">
+            <div id="plans" class="rounded-xl border border-border-card bg-bg/50 p-6">
+              <h3 class="font-display text-xl font-bold mb-6 text-center">{t.featured.plans}</h3>
+
+              <div class="space-y-4">
+                <div class="flex items-center justify-between p-3 rounded-lg bg-card border border-border-card">
+                  <div>
+                    <span class="text-sm font-semibold">Free Trial</span>
+                    <span class="block text-xs text-text-muted">14 days</span>
+                  </div>
+                  <span class="font-mono text-sm text-text-secondary">$0</span>
+                </div>
+
+                <div class="flex items-center justify-between p-3 rounded-lg bg-card border border-border-card">
+                  <div>
+                    <span class="text-sm font-semibold">Starter</span>
+                    <span class="block text-xs text-text-muted">ML • 100 prod</span>
+                  </div>
+                  <span class="font-mono text-sm text-izigna">$9.99/mo</span>
+                </div>
+
+                <div class="flex items-center justify-between p-3 rounded-lg bg-card border border-izigna/20 relative overflow-hidden">
+                  <div class="absolute top-0 right-0 bg-izigna text-[10px] font-bold text-white px-2 py-0.5 rounded-bl">{locale === 'es' ? 'Popular' : 'Popular'}</div>
+                  <div>
+                    <span class="text-sm font-semibold">Growth</span>
+                    <span class="block text-xs text-text-muted">ML+WA+IG • 1K prod</span>
+                  </div>
+                  <span class="font-mono text-sm text-izigna">$24.99/mo</span>
+                </div>
+
+                <div class="flex items-center justify-between p-3 rounded-lg bg-card border border-border-card">
+                  <div>
+                    <span class="text-sm font-semibold">Pro</span>
+                    <span class="block text-xs text-text-muted">4 canales • 5K prod</span>
+                  </div>
+                  <span class="font-mono text-sm text-text-secondary">$44.99/mo</span>
+                </div>
+
+                <div class="flex items-center justify-between p-3 rounded-lg bg-card border border-border-card">
+                  <div>
+                    <span class="text-sm font-semibold">Enterprise</span>
+                    <span class="block text-xs text-text-muted">{locale === 'es' ? 'Todo + IA' : 'All + AI'} • ∞</span>
+                  </div>
+                  <span class="font-mono text-sm text-text-secondary">$59.99/mo</span>
+                </div>
+              </div>
+
+              <p class="text-center text-xs text-text-muted mt-4">{t.featured.pricingNote}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
