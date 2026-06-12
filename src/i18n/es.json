@@ -6,6 +6,7 @@
   },
   "nav": {
     "apps": "Apps",
+    "docs": "Docs",
     "about": "Nosotros",
     "contact": "Contacto"
   },
@@ -29,17 +30,25 @@
       "560+ pruebas automatizadas",
       "54 endpoints API"
     ],
-    "pricing": "Desde $9.99 USD/mes",
     "pricingNote": "Plan Starter — 100 productos, 1 canal",
     "cta": "Instalar en Shopify",
     "ctaDisabled": "Próximamente en la App Store",
     "plans": "Ver planes",
-    "channels": "Canales"
+    "popular": "Popular",
+    "channels": "Canales",
+    "plansList": [
+      { "name": "Free Trial", "detail": "14 días", "price": "$0" },
+      { "name": "Starter", "detail": "ML • 100 productos", "price": "$9.99/mes" },
+      { "name": "Growth", "detail": "ML+WA+IG • 1K productos", "price": "$24.99/mes", "popular": true },
+      { "name": "Pro", "detail": "4 canales • 5K prod", "price": "$44.99/mes" },
+      { "name": "Enterprise", "detail": "Todo + IA • ∞", "price": "$59.99/mes" }
+    ]
   },
   "catalog": {
     "title": "Catálogo de Apps",
     "subtitle": "Soluciones profesionales para cada plataforma. Más apps en desarrollo.",
-    "comingSoon": "Próximamente"
+    "comingSoon": "Próximamente",
+    "active": "Activo"
   },
   "apps": {
     "omnisync": {
@@ -49,19 +58,19 @@
       "status": "active"
     },
     "odoo-sync": {
-      "name": "Odoo Sync",
+      "name": "OmniSync Odoo",
       "shortDesc": "Sincronización bidireccional de inventario, productos y órdenes con Odoo ERP.",
       "platform": "Odoo",
       "status": "coming"
     },
     "bigcommerce-sync": {
-      "name": "BigCommerce Sync",
+      "name": "OmniSync BigCommerce",
       "shortDesc": "Sincronización multicanal con protección de precios para BigCommerce.",
       "platform": "BigCommerce",
       "status": "coming"
     },
     "wordpress-sync": {
-      "name": "WooCommerce Sync",
+      "name": "OmniSync WooCommerce",
       "shortDesc": "Conecta WooCommerce con marketplaces y canales de venta adicionales.",
       "platform": "WordPress / WooCommerce",
       "status": "coming"
@@ -69,7 +78,7 @@
   },
   "trust": {
     "overline": "Desarrollado por",
-    "title": "Powered by IzignaMx",
+    "title": "IzignaMx",
     "description": "Somos una agencia de software mexicana especializada en desarrollo web, aplicaciones e integraciones empresariales. Cada app es diseñada, desarrollada y mantenida por nuestro equipo.",
     "tagline": "Technology that transforms",
     "stats": {
@@ -79,6 +88,36 @@
       "clients": "Comercios confían en nosotros"
     },
     "cta": "Visitar izignamx.com"
+  },
+  "a11y": {
+    "skipToContent": "Saltar al contenido",
+    "opensInNewWindow": "(se abre en nueva ventana)",
+    "toggleMenu": "Abrir menú",
+    "homeLabel": "IzignaMx Apps - Inicio",
+    "switchLang": "Cambiar a {lang}"
+  },
+  "notFound": {
+    "title": "404 — Página no encontrada",
+    "description": "La página que buscas no existe o ha sido movida.",
+    "cta": "Volver al inicio"
+  },
+  "docs": {
+    "title": "Documentación",
+    "description": "Todo lo que necesitas para integrar, configurar y dominar OmniSync.",
+    "search": "Buscar en docs...",
+    "noResults": "Sin resultados.",
+    "navigation": "Navegación",
+    "lastUpdated": "Última actualización",
+    "previous": "Anterior",
+    "next": "Siguiente",
+    "sections": {
+      "getting-started": "Inicio rápido",
+      "api": "Referencia API",
+      "pricing": "Precios",
+      "faq": "FAQ",
+      "changelog": "Registro de cambios",
+      "guides": "Guías"
+    }
   },
   "footer": {
     "brand": "Agencia de software mexicana. Desarrollo, mantenimiento y documentación de apps para e-commerce.",
