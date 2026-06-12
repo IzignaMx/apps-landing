@@ -1,21 +1,23 @@
 ---
 import '../styles/global.css';
-import { type Locale, getLocaleFromUrl } from '../i18n';
+import { type Locale, getLocaleFromUrl, getTranslations, getAlternateUrl } from '../i18n';
 
 interface Props {
   title?: string;
   description?: string;
   locale?: Locale;
+  noindex?: boolean;
 }
 
 const url = Astro.url;
 const locale = Astro.props.locale || getLocaleFromUrl(url);
-const isEn = locale === 'en';
+const t = getTranslations(locale);
+const canonicalUrl = new URL(url.pathname, url.origin).href;
+const enUrl = locale === 'en' ? canonicalUrl : new URL(getAlternateUrl(url, 'en'), url.origin).href;
+const esUrl = locale === 'es' ? canonicalUrl : new URL(getAlternateUrl(url, 'es'), url.origin).href;
 
-const title = Astro.props.title || (isEn ? 'IzignaMx Apps — Apps that power your store' : 'IzignaMx Apps — Apps que potencian tu tienda');
-const description = Astro.props.description || (isEn
-  ? 'Professional Shopify apps developed by IzignaMx. Multi-channel sync, price protection, AI-powered suggestions, and more.'
-  : 'Apps profesionales para Shopify desarrolladas por IzignaMx. Sincronización multicanal, protección de precios, inteligencia artificial y más.');
+const title = Astro.props.title || t.meta.title;
+const description = Astro.props.description || t.meta.description;
 ---
 <!doctype html>
 <html lang={locale} class="scroll-smooth">
@@ -24,19 +26,30 @@ const description = Astro.props.description || (isEn
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="description" content={description} />
     <meta name="theme-color" content="#0f0f0f" />
+    <meta name="robots" content={Astro.props.noindex ? 'noindex, nofollow' : 'index, follow'} />
 
     <title>{title}</title>
 
+    {!Astro.props.noindex && (
+      <Fragment>
+        <link rel="canonical" href={canonicalUrl} />
+        <link rel="alternate" hreflang="en" href={enUrl} />
+        <link rel="alternate" hreflang="es" href={esUrl} />
+        <link rel="alternate" hreflang="x-default" href={enUrl} />
+      </Fragment>
+    )}
+
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
-    <link rel="preload" href="/fonts/ADAM.CG PRO-webfont.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="apple-touch-icon" sizes="192x192" href="/images/isotipo.png" />
+
+    <link rel="stylesheet" href="/fonts/fonts.css" />
+    <link rel="preload" href="/fonts/adam-cg-pro.woff2" as="font" type="font/woff2" crossorigin />
 
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <meta property="og:type" content="website" />
-    <meta property="og:url" content="https://apps.izignamx.com" />
+    <meta property="og:url" content={canonicalUrl} />
+    <meta property="og:image" content={new URL('/og-image.png', url.origin).href} />
     <meta property="og:site_name" content="IzignaMx Apps" />
     <meta property="og:locale" content={locale === 'en' ? 'en_US' : 'es_MX'} />
     <meta property="og:locale:alternate" content={locale === 'en' ? 'es_MX' : 'en_US'} />
@@ -44,33 +57,88 @@ const description = Astro.props.description || (isEn
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content={title} />
     <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={new URL('/og-image.png', url.origin).href} />
+
+    <script defer src="https://cloud.umami.is/script.js" data-website-id="f2cc181d-e213-4fe8-a604-b178d259d212"></script>
 
     <script type="application/ld+json" set:html={JSON.stringify({
       "@context": "https://schema.org",
       "@type": "Organization",
       "name": "IzignaMx Apps",
       "url": "https://apps.izignamx.com",
+      "logo": "https://apps.izignamx.com/images/isotipo.png",
       "description": description,
       "parentOrganization": {
         "@type": "Organization",
         "name": "IzignaMx",
         "url": "https://izignamx.com"
       },
-      "application": {
-        "@type": "SoftwareApplication",
-        "name": "OmniSync",
-        "applicationCategory": "BusinessApplication",
-        "operatingSystem": "Web",
-        "offers": {
-          "@type": "Offer",
-          "price": "9.99",
-          "priceCurrency": "USD",
-          "description": "Starter plan"
-        }
+      "owns": {
+        "@type": "ItemList",
+        "name": "IzignaMx Apps",
+        "numberOfItems": 4,
+        "itemListElement": [
+          {
+            "@type": "SoftwareApplication",
+            "position": 1,
+            "name": "OmniSync",
+            "applicationCategory": "BusinessApplication",
+            "operatingSystem": "Web",
+            "offers": [
+              { "@type": "Offer", "price": "0", "priceCurrency": "USD", "name": "Free Trial", "description": "14 days" },
+              { "@type": "Offer", "price": "9.99", "priceCurrency": "USD", "name": "Starter" },
+              { "@type": "Offer", "price": "24.99", "priceCurrency": "USD", "name": "Growth" },
+              { "@type": "Offer", "price": "44.99", "priceCurrency": "USD", "name": "Pro" },
+              { "@type": "Offer", "price": "59.99", "priceCurrency": "USD", "name": "Enterprise" }
+            ]
+          },
+          {
+            "@type": "SoftwareApplication",
+            "position": 2,
+            "name": "OmniSync - Odoo",
+            "applicationCategory": "BusinessApplication",
+            "operatingSystem": "Web",
+            "status": "Planned"
+          },
+          {
+            "@type": "SoftwareApplication",
+            "position": 3,
+            "name": "OmniSync - BigCommerce",
+            "applicationCategory": "BusinessApplication",
+            "operatingSystem": "Web",
+            "status": "Planned"
+          },
+          {
+            "@type": "SoftwareApplication",
+            "position": 4,
+            "name": "OmniSync - WordPress",
+            "applicationCategory": "BusinessApplication",
+            "operatingSystem": "Web",
+            "status": "Planned"
+          }
+        ]
       }
     })} />
   </head>
   <body class="min-h-screen bg-bg text-text-primary antialiased">
+    <a href="#main" class="sr-only focus:not-sr-only focus:absolute focus:z-[100] focus:top-4 focus:left-4 focus:bg-izigna focus:text-white focus:px-4 focus:py-2 focus:rounded-lg focus:text-sm focus:font-semibold">
+      {t.a11y.skipToContent}
+    </a>
     <slot />
+    <script is:inline data-locale={locale}>
+      (function(){
+        if (location.search.indexOf('lang=es') !== -1) { location.replace('/es' + location.pathname); return; }
+        if (location.search.indexOf('lang=en') !== -1) { location.replace(location.pathname); return; }
+        var loc = document.currentScript.getAttribute('data-locale');
+        var stored;
+        try { stored = localStorage.getItem('izigna-locale'); } catch(e){}
+        try { localStorage.setItem('izigna-locale', loc); } catch(e){}
+        if (stored !== null) return;
+        var nav = (navigator.language || navigator.userLanguage || '').slice(0, 2);
+        if (nav === 'es' && loc !== 'es') {
+          location.replace('/es' + location.pathname);
+        }
+      })();
+    </script>
   </body>
 </html>
