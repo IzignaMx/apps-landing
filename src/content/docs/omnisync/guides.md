@@ -43,33 +43,35 @@ Supported variables:
 
 - Authenticate via OAuth in the channel setup wizard
 - Map your Shopify categories to Mercado Libre categories
-- Configure publication type (classic or premium)
-- Set stock sync direction (bidirectional or Shopify → ML only)
+- Configure publication type (classic or premium) — *coming soon*
+- Set stock sync direction (bidirectional or Shopify → ML only) — *coming soon*
 
 ### WhatsApp Business
 
 - Connect via the WhatsApp Business API
 - Configure your product catalog for WhatsApp
-- Set up automated pricing messages
-- Enable order notifications
+- Set up automated pricing messages — *coming soon*
+- Enable order notifications — *coming soon*
 
 ### Amazon
 
 - Connect via Amazon SP-API
-- Configure ASIN matching strategy
-- Set fulfillment mode (FBM or FBA)
+- Configure ASIN matching strategy — *coming soon*
+- Set fulfillment mode (FBM or FBA) — *coming soon*
 - Map Shopify variants to Amazon variations
 
 ### Instagram Shopping
 
 - Connect via Meta Business Suite
 - Ensure your product catalog meets Instagram requirements
-- Configure tagging behavior
-- Set up shoppable posts sync
+- Configure tagging behavior — *coming soon*
+- Set up shoppable posts sync — *coming soon*
 
 ## Webhook Integration
 
-OmniSync can send webhooks when key events occur:
+> **Coming soon** — Outgoing webhooks are currently in development. The following describes the planned behavior.
+
+OmniSync will be able to send webhooks when key events occur:
 
 ```json
 {

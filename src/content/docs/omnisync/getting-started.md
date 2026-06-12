@@ -30,10 +30,10 @@ Each channel has its own settings:
 
 | Setting | Description |
 |---------|-------------|
-| Sync interval | How often inventory is synced (default: 15 min) |
+| Sync interval | How often inventory is synced (varies by plan, 1 min to 1 hour) |
 | Price protection | Enable/disable per-channel price locks |
-| Stock threshold | Minimum stock before alerts are triggered |
-| Auto-publish | Automatically publish new products to the channel |
+| Low stock alert | Automatic notification when stock drops below 5 units |
+| Auto-publish | _Coming soon_ — automatically publish new products to the channel |
 
 ## Next Steps
 

@@ -12,14 +12,17 @@ order: 3
 |---------|-----------|---------|--------|-----|------------|
 | **Price** | $0 | $9.99/mo | $24.99/mo | $44.99/mo | $59.99/mo |
 | Duration | 14 days | Monthly | Monthly | Monthly | Monthly |
-| Products | All | 100 | 1,000 | 5,000 | Unlimited |
-| Channels | 1 | 1 (ML) | 3 (ML+WA+IG) | 4 | 4 |
-| Sync interval | 60 min | 30 min | 15 min | 5 min | 1 min |
+| Products | Unlimited | 100 | 1,000 | 5,000 | Unlimited |
+| Channels | 1 (ML) | 1 (ML) | 3 (ML+WA+IG) | 4 | 4 |
+| Sync interval | 1 hour | 30 min | 15 min | 5 min | 1 min |
 | Price protection | Yes | Yes | Yes | Yes | Yes |
-| AI suggestions | No | No | No | Yes | Yes |
-| API access | Read-only | Full | Full | Full | Full |
-| Rate limit (req/min) | 60 | 120 | 300 | 600 | Unlimited |
+| AI suggestions | No | No | No | No | Yes |
+| API access | Full | Full | Full | Full | Full |
+| Rate limiting | Per-channel | Per-channel | Per-channel | Per-channel | Per-channel |
 | Priority support | No | No | No | Yes | Yes |
+| Catalog import | No | No | Yes | Yes | Yes |
+
+> **Rate limiting** is applied per-channel using a token bucket algorithm to respect each platform's API limits: Mercado Libre (2 req/s), WhatsApp (5 req/s), Instagram (5 req/s), Amazon (1 req/s).
 
 ## Price Protection
 

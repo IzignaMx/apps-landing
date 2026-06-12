@@ -17,8 +17,8 @@ Initial release.
 - **Price protection engine**: Per-channel price locks with 8 rule types
 - **AI-powered suggestions**: Price recommendations based on market data (Pro/Enterprise)
 - **Real-time dashboard**: Monitor sync status, pricing, and inventory across all channels
-- **54 API endpoints**: Full REST API for programmatic access
-- **560+ automated tests**: Comprehensive test coverage for reliability
+- **~50 API endpoints**: Full REST API for programmatic access
+- **549+ automated tests**: Comprehensive test coverage for reliability
 
 ### Price Rule Types
 
