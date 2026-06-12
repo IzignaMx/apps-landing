@@ -1,5 +1,5 @@
 ---
-import { type Locale, getTranslations, getAlternateUrl } from '../i18n';
+import { type Locale, getTranslations, getAlternateUrl, localePath } from '../i18n';
 
 interface Props {
   locale: Locale;
@@ -7,13 +7,16 @@ interface Props {
 
 const { locale } = Astro.props;
 const t = getTranslations(locale);
+const homeHref = localePath('/', locale);
+const docsHref = localePath('/docs', locale);
 const altUrl = getAlternateUrl(Astro.url, locale === 'es' ? 'en' : 'es');
 const altLabel = locale === 'es' ? 'EN' : 'ES';
+const targetLocale = locale === 'es' ? 'en' : 'es';
 ---
 
 <header class="sticky top-0 z-50 backdrop-blur-xl bg-bg/80 border-b border-border-card">
   <div class="max-w-[1280px] mx-auto px-6 h-16 flex items-center justify-between">
-    <a href="/" class="flex items-center gap-3 group" aria-label="IzignaMx Apps - Home">
+    <a href={homeHref} class="flex items-center gap-3 group" aria-label={t.a11y.homeLabel || 'IzignaMx Apps - Home'}>
       <img src="/images/isotipo.png" alt="" width="32" height="32" class="rounded-lg" aria-hidden="true" />
       <span class="font-display text-lg tracking-tight">
         <span class="text-text-primary">Izigna</span><span class="text-izigna">Mx</span>
@@ -21,17 +24,40 @@ const altLabel = locale === 'es' ? 'EN' : 'ES';
       </span>
     </a>
 
-    <nav class="flex items-center gap-6" aria-label="Main navigation">
+    <nav class="hidden md:flex items-center gap-6" aria-label="Main navigation">
       <a href="#apps" class="text-sm text-text-secondary hover:text-text-primary transition-colors duration-300">{t.nav.apps}</a>
+      <a href={docsHref} class="text-sm text-text-secondary hover:text-text-primary transition-colors duration-300">{t.nav.docs}</a>
       <a href="#about" class="text-sm text-text-secondary hover:text-text-primary transition-colors duration-300">{t.nav.about}</a>
-      <a href="https://wa.me/5215512345678" target="_blank" rel="noopener noreferrer" class="text-sm text-text-secondary hover:text-text-primary transition-colors duration-300">{t.nav.contact}</a>
+      <a href="https://wa.me/525533760889" target="_blank" rel="noopener noreferrer" class="text-sm text-text-secondary hover:text-text-primary transition-colors duration-300">{t.nav.contact}<span class="sr-only"> (opens in new window)</span></a>
       <a
         href={altUrl}
+        onclick={`try{localStorage.setItem('izigna-locale','${targetLocale}')}catch(e){}`}
         class="text-xs font-mono font-medium text-text-muted hover:text-izigna border border-border-card rounded px-2 py-1 transition-colors duration-300"
-        aria-label={`Switch to ${altLabel}`}
+        aria-label={t.a11y.switchLang || `Switch to ${altLabel}`}
       >
         {altLabel}
       </a>
     </nav>
+
+    <details class="md:hidden relative">
+      <summary class="list-none cursor-pointer p-2 -mr-2 text-text-secondary hover:text-text-primary transition-colors" aria-label={t.a11y.toggleMenu || 'Toggle menu'}>
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16" /></svg>
+      </summary>
+      <nav class="absolute right-0 top-full mt-2 w-56 rounded-xl border border-border-card bg-card shadow-lg py-4 px-4 flex flex-col gap-3 z-50" aria-label="Mobile navigation">
+        <a href="#apps" class="text-sm text-text-secondary hover:text-text-primary transition-colors duration-300">{t.nav.apps}</a>
+        <a href={docsHref} class="text-sm text-text-secondary hover:text-text-primary transition-colors duration-300">{t.nav.docs}</a>
+        <a href="#about" class="text-sm text-text-secondary hover:text-text-primary transition-colors duration-300">{t.nav.about}</a>
+        <a href="https://wa.me/525533760889" target="_blank" rel="noopener noreferrer" class="text-sm text-text-secondary hover:text-text-primary transition-colors duration-300">{t.nav.contact}<span class="sr-only"> (opens in new window)</span></a>
+        <hr class="border-border-card" />
+        <a
+          href={altUrl}
+          onclick={`try{localStorage.setItem('izigna-locale','${targetLocale}')}catch(e){}`}
+          class="text-xs font-mono font-medium text-text-muted hover:text-izigna border border-border-card rounded px-2 py-1 text-center transition-colors duration-300"
+          aria-label={t.a11y.switchLang || `Switch to ${altLabel}`}
+        >
+          {altLabel}
+        </a>
+      </nav>
+    </details>
   </div>
 </header>
