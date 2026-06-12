@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#0f0f0f"/>
+      <stop offset="100%" style="stop-color:#1a1a2e"/>
+    </linearGradient>
+    <linearGradient id="accent" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#2E96FF"/>
+      <stop offset="100%" style="stop-color:#6366f1"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="630" fill="url(#bg)"/>
+  <circle cx="100" cy="100" r="300" fill="#2E96FF" opacity="0.05"/>
+  <circle cx="1100" cy="530" r="250" fill="#6366f1" opacity="0.05"/>
+  <rect x="0" y="620" width="1200" height="10" fill="url(#accent)"/>
+  <text x="600" y="220" font-family="system-ui, -apple-system, sans-serif" font-size="72" font-weight="900" fill="#ffffff" text-anchor="middle" letter-spacing="-2">IzignaMx Apps</text>
+  <text x="600" y="310" font-family="system-ui, -apple-system, sans-serif" font-size="32" font-weight="400" fill="#94a3b8" text-anchor="middle">Apps that power your store</text>
+  <rect x="480" y="370" width="240" height="4" rx="2" fill="url(#accent)"/>
+  <text x="600" y="440" font-family="monospace" font-size="18" fill="#2E96FF" text-anchor="middle">OmniSync Shopify · Odoo · BigCommerce · WooCommerce</text>
+  <text x="600" y="510" font-family="system-ui, -apple-system, sans-serif" font-size="20" font-weight="300" fill="#64748b" text-anchor="middle" font-style="italic">Technology that transforms</text>
+</svg>
