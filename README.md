@@ -1,43 +1,50 @@
-# Astro Starter Kit: Minimal
+# IzignaMx Apps Landing
 
-```sh
-npm create astro@latest -- --template minimal
+Landing page and documentation portal for [IzignaMx](https://izignamx.com) Shopify applications, deployed to [apps.izignamx.com](https://apps.izignamx.com).
+
+## Stack
+
+- **Astro 6** with Turbopack
+- **Tailwind CSS v4**
+- **MDX** for documentation content
+- **Pagefind** for client-side search
+- **GitHub Pages** deployment
+
+## Commands
+
+```bash
+npm install
+npm run dev          # dev server at localhost:4321
+npm run build        # astro build + pagefind index
+npm run preview      # preview production build
 ```
 
-> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
+## Project Structure
 
-## 🚀 Project Structure
-
-Inside of your Astro project, you'll see the following folders and files:
-
-```text
-/
-├── public/
-├── src/
-│   └── pages/
-│       └── index.astro
-└── package.json
+```
+src/
+├── components/     # Header, Footer, FeaturedApp, CatalogSection, etc.
+├── content/
+│   └── docs/       # MDX documentation files (omnisync/)
+├── i18n/           # en.json, es.json translations
+├── layouts/        # Layout.astro (landing), DocsLayout.astro (docs)
+├── pages/
+│   ├── index.astro           # landing page
+│   ├── 404.astro             # custom 404
+│   └── docs/
+│       ├── index.astro       # docs hub
+│       └── omnisync/
+│           └── [slug].astro  # dynamic doc pages
+├── styles/         # global.css (design tokens, prose-docs)
+└── content.config.ts  # Zod schema for docs collection
 ```
 
-Astro looks for `.astro` or `.md` files in the `src/pages/` directory. Each page is exposed as a route based on its file name.
+## Adding a New Doc Page
 
-There's nothing special about `src/components/`, but that's where we like to put any Astro/React/Vue/Svelte/Preact components.
+1. Create `src/content/docs/omnisync/my-page.md` with frontmatter matching the Zod schema
+2. Add a sidebar entry in `DocsLayout.astro` sections array
+3. Rebuild — Pagefind auto-indexes pages with `data-pagefind-body`
 
-Any static assets, like images, can be placed in the `public/` directory.
+## License
 
-## 🧞 Commands
-
-All commands are run from the root of the project, from a terminal:
-
-| Command                   | Action                                           |
-| :------------------------ | :----------------------------------------------- |
-| `npm install`             | Installs dependencies                            |
-| `npm run dev`             | Starts local dev server at `localhost:4321`      |
-| `npm run build`           | Build your production site to `./dist/`          |
-| `npm run preview`         | Preview your build locally, before deploying     |
-| `npm run astro ...`       | Run CLI commands like `astro add`, `astro check` |
-| `npm run astro -- --help` | Get help using the Astro CLI                     |
-
-## 👀 Want to learn more?
-
-Feel free to check [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
+GNU General Public License v3.0 — see [LICENSE](./LICENSE).
