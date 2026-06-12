@@ -1,0 +1,56 @@
+---
+import DocsLayout from '../../layouts/DocsLayout.astro';
+import { getCollection } from 'astro:content';
+import { type Locale, getTranslations, localePath } from '../../i18n';
+
+const locale: Locale = 'en';
+const t = getTranslations(locale);
+
+const docs = await getCollection('docs');
+const grouped = docs.reduce((acc, doc) => {
+  const app = doc.data.app;
+  if (!acc[app]) acc[app] = [];
+  acc[app].push(doc);
+  return acc;
+}, {} as Record<string, typeof docs>);
+
+const sectionLabels = t.docs.sections;
+---
+
+<DocsLayout title={t.docs.title} description={t.docs.description} locale={locale}>
+  <div class="not-prose">
+    <h1 class="font-display text-3xl md:text-4xl font-black tracking-tight mb-2">{t.docs.title}</h1>
+    <p class="text-text-secondary text-lg mb-10">{t.docs.description}</p>
+
+    {Object.entries(grouped).map(([app, entries]) => (
+      <div class="mb-10">
+        <div class="flex items-center gap-3 mb-4">
+          <div class="w-8 h-8 rounded-lg bg-izigna/10 border border-izigna/20 flex items-center justify-center">
+            <svg class="w-4 h-4 text-izigna" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" /></svg>
+          </div>
+          <h2 class="font-display text-xl font-bold">{app === 'omnisync' ? 'OmniSync' : app}</h2>
+        </div>
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+          {entries
+            .sort((a, b) => a.data.order - b.data.order)
+            .map((entry) => (
+              <a
+                href={localePath(`/docs/${entry.id}`, locale)}
+                class="group block p-4 rounded-xl border border-border-card bg-card hover:border-izigna/30 hover:bg-izigna/5 transition-all duration-300"
+              >
+                <span class="text-xs font-mono text-text-muted uppercase tracking-widest mb-1 block">
+                  {sectionLabels[entry.data.section] || entry.data.section}
+                </span>
+                <h3 class="font-display font-bold text-sm group-hover:text-izigna transition-colors">
+                  {entry.data.title}
+                </h3>
+                <p class="text-xs text-text-muted mt-1 line-clamp-2">
+                  {entry.data.description}
+                </p>
+              </a>
+            ))}
+        </div>
+      </div>
+    ))}
+  </div>
+</DocsLayout>
