@@ -10,9 +10,7 @@
   --color-text-primary: #ffffff;
   --color-text-secondary: #d1d5db;
   --color-text-muted: #9ca3af;
-  --color-text-dark: #333333;
   --color-border-card: rgba(255, 255, 255, 0.05);
-  --color-border-input: rgba(255, 255, 255, 0.1);
   --color-service-webdev: #3b82f6;
   --color-service-appdev: #8b5cf6;
   --color-service-marketing: #f59e0b;
@@ -28,7 +26,7 @@
 
 @font-face {
   font-family: 'ADAM.CG PRO';
-  src: url('/fonts/ADAM.CG PRO-webfont.woff2') format('woff2');
+  src: url('/fonts/adam-cg-pro.woff2') format('woff2');
   font-weight: 900;
   font-style: normal;
   font-display: swap;
@@ -51,6 +49,23 @@ body {
   color: #ffffff;
 }
 
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-izigna);
+  outline-offset: 2px;
+}
+
 .dot-grid {
   background-image: radial-gradient(circle, rgba(46, 150, 255, 0.15) 1px, transparent 1px);
   background-size: 12px 12px;
@@ -62,10 +77,6 @@ body {
 
 .gradient-orb-purple {
   background: radial-gradient(circle at 70% 60%, rgba(139, 92, 246, 0.08) 0%, transparent 50%);
-}
-
-.cover-gradient {
-  background: linear-gradient(135deg, #0a0a0a 0%, #0f172a 40%, #0f4c8a 100%);
 }
 
 .btn-primary {
@@ -108,4 +119,132 @@ body {
   right: 0;
   height: 4px;
   border-radius: 0 0 12px 12px;
+}
+
+.prose-docs {
+  color: var(--color-text-secondary);
+  line-height: 1.75;
+  font-size: 0.95rem;
+}
+.prose-docs h1 {
+  font-family: var(--font-display);
+  font-size: 2rem;
+  font-weight: 900;
+  color: var(--color-text-primary);
+  margin-bottom: 1rem;
+  letter-spacing: -0.02em;
+}
+.prose-docs h2 {
+  font-family: var(--font-display);
+  font-size: 1.5rem;
+  font-weight: 900;
+  color: var(--color-text-primary);
+  margin-top: 2.5rem;
+  margin-bottom: 0.75rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid var(--color-border-card);
+  letter-spacing: -0.01em;
+}
+.prose-docs h3 {
+  font-family: var(--font-display);
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: var(--color-text-primary);
+  margin-top: 2rem;
+  margin-bottom: 0.5rem;
+}
+.prose-docs p {
+  margin-bottom: 1rem;
+}
+.prose-docs a {
+  color: var(--color-izigna);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  transition: color 200ms;
+}
+.prose-docs a:hover {
+  color: #60a5fa;
+}
+.prose-docs ul, .prose-docs ol {
+  margin-bottom: 1rem;
+  padding-left: 1.5rem;
+}
+.prose-docs ul {
+  list-style-type: disc;
+}
+.prose-docs ol {
+  list-style-type: decimal;
+}
+.prose-docs li {
+  margin-bottom: 0.35rem;
+}
+.prose-docs strong {
+  color: var(--color-text-primary);
+  font-weight: 600;
+}
+.prose-docs table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 1.5rem;
+  font-size: 0.875rem;
+}
+.prose-docs thead {
+  border-bottom: 2px solid rgba(46, 150, 255, 0.2);
+}
+.prose-docs th {
+  text-align: left;
+  padding: 0.625rem 0.75rem;
+  font-weight: 600;
+  color: var(--color-text-primary);
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+.prose-docs td {
+  padding: 0.625rem 0.75rem;
+  border-bottom: 1px solid var(--color-border-card);
+}
+.prose-docs tr:hover td {
+  background: rgba(46, 150, 255, 0.03);
+}
+.prose-docs code {
+  font-family: var(--font-mono);
+  font-size: 0.85em;
+  background: var(--color-surface);
+  padding: 0.15em 0.4em;
+  border-radius: 4px;
+  color: var(--color-izigna);
+}
+.prose-docs pre {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border-card);
+  border-radius: 8px;
+  padding: 1rem 1.25rem;
+  overflow-x: auto;
+  margin-bottom: 1.5rem;
+  font-size: 0.85rem;
+  line-height: 1.6;
+}
+.prose-docs pre code {
+  background: none;
+  padding: 0;
+  border-radius: 0;
+  color: var(--color-text-secondary);
+}
+.prose-docs blockquote {
+  border-left: 3px solid var(--color-izigna);
+  padding-left: 1rem;
+  margin-left: 0;
+  margin-bottom: 1rem;
+  color: var(--color-text-muted);
+  font-style: italic;
+}
+.prose-docs hr {
+  border: none;
+  border-top: 1px solid var(--color-border-card);
+  margin: 2rem 0;
+}
+.prose-docs img {
+  border-radius: 8px;
+  margin: 1.5rem 0;
 }
