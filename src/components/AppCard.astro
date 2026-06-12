@@ -16,9 +16,10 @@ interface Props {
   href?: string;
   comingSoonLabel: string;
   installLabel?: string;
+  activeLabel?: string;
 }
 
-const { name, description, platform, status, accentColor, iconSvg, href, comingSoonLabel, installLabel } = Astro.props;
+const { name, description, platform, status, accentColor, iconSvg, href, comingSoonLabel, installLabel, activeLabel } = Astro.props;
 const isActive = status === 'active';
 const glowRgb = hexToRgb(accentColor);
 ---
@@ -55,7 +56,7 @@ const glowRgb = hexToRgb(accentColor);
       {isActive ? (
         <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-green-500/10 border border-green-500/20 text-xs font-mono text-green-400">
           <span class="w-1.5 h-1.5 rounded-full bg-green-400 animate-pulse"></span>
-          Active
+          {activeLabel || 'Active'}
         </span>
       ) : (
         <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-text-muted/10 border border-text-muted/20 text-xs font-mono text-text-muted">
