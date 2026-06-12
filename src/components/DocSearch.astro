@@ -1,0 +1,95 @@
+---
+interface Props {
+  locale?: string;
+}
+
+const { locale = 'en' } = Astro.props;
+---
+
+<div id="docsearch" class="relative mb-8">
+  <div class="relative">
+    <svg class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-text-muted pointer-events-none" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" /></svg>
+    <label for="pagefind-input" class="sr-only">{locale === 'es' ? 'Buscar en documentación' : 'Search docs'}</label>
+    <input
+      id="pagefind-input"
+      type="search"
+      placeholder={locale === 'es' ? 'Buscar en docs...' : 'Search docs...'}
+      class="w-full pl-10 pr-4 py-2.5 rounded-lg bg-surface border border-border-card text-sm text-text-primary placeholder:text-text-muted focus:outline-none focus:border-izigna focus:ring-1 focus:ring-izigna/30 transition-colors"
+    />
+  </div>
+  <div id="pagefind-results" class="hidden mt-2 rounded-lg border border-border-card bg-card shadow-lg overflow-hidden" role="listbox" aria-live="polite"></div>
+</div>
+
+<script is:inline>
+  window.addEventListener('DOMContentLoaded', function() {
+    var input = document.getElementById('pagefind-input');
+    var resultsEl = document.getElementById('pagefind-results');
+    if (!input || !resultsEl) return;
+    var debounceTimer;
+
+    function loadPagefind() {
+      if (window.pagefind) return Promise.resolve();
+      return new Promise(function(resolve) {
+        var s = document.createElement('script');
+        s.src = '/pagefind/pagefind.js';
+        s.onload = resolve;
+        document.head.appendChild(s);
+      });
+    }
+
+    input.addEventListener('focus', loadPagefind);
+
+    input.addEventListener('input', function() {
+      clearTimeout(debounceTimer);
+      debounceTimer = setTimeout(function() {
+        if (!window.pagefind || !input.value.trim()) {
+          resultsEl.classList.add('hidden');
+          resultsEl.innerHTML = '';
+          return;
+        }
+        window.pagefind.search(input.value).then(function(results) {
+          resultsEl.innerHTML = '';
+          if (!results.results.length) {
+            var empty = document.createElement('div');
+            empty.className = 'px-4 py-3 text-sm text-text-muted';
+            empty.textContent = 'No results found.';
+            resultsEl.appendChild(empty);
+            resultsEl.classList.remove('hidden');
+            return;
+          }
+          Promise.all(results.results.slice(0, 5).map(function(r) { return r.data(); })).then(function(data) {
+            resultsEl.innerHTML = '';
+            data.forEach(function(item) {
+              var a = document.createElement('a');
+              a.href = item.url;
+              a.className = 'block px-4 py-3 hover:bg-izigna/5 transition-colors border-b border-border-card last:border-0';
+              var title = document.createElement('span');
+              title.className = 'text-sm font-semibold text-text-primary';
+              title.textContent = item.meta.title;
+              var desc = document.createElement('p');
+              desc.className = 'text-xs text-text-muted mt-0.5 line-clamp-2';
+              desc.textContent = item.excerpt || item.meta.description || '';
+              a.appendChild(title);
+              a.appendChild(desc);
+              resultsEl.appendChild(a);
+            });
+            resultsEl.classList.remove('hidden');
+          });
+        });
+      }, 300);
+    });
+
+    document.addEventListener('click', function(e) {
+      if (!document.getElementById('docsearch')?.contains(e.target)) {
+        resultsEl.classList.add('hidden');
+      }
+    });
+
+    input.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape') {
+        resultsEl.classList.add('hidden');
+        input.blur();
+      }
+    });
+  });
+</script>
