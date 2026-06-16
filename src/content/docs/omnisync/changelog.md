@@ -4,7 +4,59 @@ description: OmniSync release notes and version history.
 app: omnisync
 section: changelog
 order: 5
-updated: 2026-06-12
+updated: 2026-06-15
+---
+
+## v1.2.0 — June 2026
+
+Production hardening, channel webhook receivers, and comprehensive codebase audit.
+
+### Incoming Channel Webhooks
+
+Real-time event reception from all 4 supported channels:
+
+- **Mercado Libre** — `orders_v2`, `items` (price/stock changes), `questions` notifications via HMAC-SHA256 verified POST
+- **WhatsApp Business** — Message and order events via Meta's `X-Hub-Signature-256` verification (GET challenge + POST)
+- **Instagram Shopping** — Comments and mentions via Meta Graph webhook pattern (GET challenge + POST)
+- **Amazon** — SNS `SubscriptionConfirmation` + `Notification` for `AnyOfferChanged`, `OrderStatusChange`, `FeedProcessingFinished`
+- Central processor creates orders, triggers syncs, and notifies merchants automatically
+
+### Security Hardening
+
+- **AES-256-GCM credential encryption** — all OAuth tokens (ML, Meta, Amazon) encrypted at rest; production fails fast if `CREDENTIALS_ENCRYPTION_KEY` is not set
+- **SSRF protection** — DNS resolution checks block requests to private IP ranges
+- **Zod input validation** — 15+ schemas enforce structured validation on all API request bodies via `validateBody()`
+- **IDOR fix** — all API routes authenticate via `x-shop-id` header instead of request body/query parameter
+- **CSP headers** — removed `unsafe-eval`, restricted `connect-src` and `img-src` to known domains
+
+### API Consistency
+
+- All 133 error responses across 45 route files standardized to `{ success: false, error: "message" }`
+- `apiError()` and `apiSuccess()` helpers ensure uniform response envelopes
+- `errorMessage` field added to `SyncLog` model — sync errors now persisted to audit trail
+
+### Codebase Audit
+
+- **0 ESLint warnings** (was 130), **0 TypeScript errors**
+- 12 raw `JSON.parse()` calls on stored DB data replaced with crash-safe `safeJsonParse()`
+- 8 duplicated `safeJsonParse` implementations consolidated into shared utility
+- 30 `console.log` → `console.warn`/`console.error` in production code paths
+- Net reduction of 552 lines of dead code
+
+### Docker & Deployment
+
+- **Worker image** now uses production-only dependencies (was shipping ESLint, TypeScript, etc.)
+- CI/CD pipeline validates standalone Docker build (`DOCKER_BUILD=1`)
+- Prisma schema uses `env("DATABASE_URL")` (was hardcoded path)
+- Bun version pinned to 1.3 in CI (was `latest`)
+- Hardcoded OAuth URLs extracted to configurable constants
+
+### Stats
+
+- **70+ API endpoints** across 21 groups
+- **585 automated tests** with 1395 assertions across 23 files
+- **15 data models** (SyncLog now includes `errorMessage`)
+
 ---
 
 ## v1.1.0 — June 2026

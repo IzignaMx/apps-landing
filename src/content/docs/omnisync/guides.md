@@ -69,9 +69,9 @@ Supported variables:
 
 ## Webhook Integration
 
-> **Coming soon** — Outgoing webhooks are currently in development. The following describes the planned behavior.
+OmniSync can send outgoing webhooks when key events occur. Configure subscriptions via the **Webhooks** API or the in-app settings panel.
 
-OmniSync will be able to send webhooks when key events occur:
+### Payload Format
 
 ```json
 {
@@ -87,7 +87,23 @@ OmniSync will be able to send webhooks when key events occur:
 }
 ```
 
-Available events:
+### Signature Verification
+
+Every delivery includes an `X-OmniSync-Signature` header containing an HMAC-SHA256 hash of the payload, signed with your webhook secret. Verify on receipt:
+
+```javascript
+const crypto = require('crypto');
+const expected = crypto
+  .createHmac('sha256', WEBHOOK_SECRET)
+  .update(rawBody)
+  .digest('hex');
+if (expected !== receivedSignature) {
+  return res.status(401).send('Invalid signature');
+}
+```
+
+### Available Events
+
 - `sync.started`
 - `sync.completed`
 - `sync.failed`
@@ -95,3 +111,17 @@ Available events:
 - `price.locked`
 - `order.created`
 - `order.status_changed`
+
+### Retry Policy
+
+Failed deliveries are retried with exponential backoff: 10 seconds, 60 seconds, 300 seconds (up to 3 attempts). Subscriptions are automatically deactivated after 10 consecutive failures.
+
+### Management API
+
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| `POST` | `/api/webhooks/config` | Create a webhook subscription |
+| `GET` | `/api/webhooks/config` | List your subscriptions |
+| `DELETE` | `/api/webhooks/config` | Delete a subscription |
+| `POST` | `/api/webhooks/test` | Send a test event to verify your endpoint |
+| `POST` | `/api/webhooks/redeliver` | Re-send a specific failed delivery |

@@ -12,11 +12,15 @@ order: 2
 https://omnisync.izignamx.com/api
 ```
 
-All endpoints require a `shopId` query parameter (or body field) for authentication.
+All endpoints require an `x-shop-id` header for authentication.
 
 ## Authentication
 
-API requests are authenticated via Shopify session tokens. The middleware validates the `shopId` against registered shops.
+API requests are authenticated via the `x-shop-id` header. The middleware validates the shop ID against registered shops. Example:
+
+```bash
+curl -H "x-shop-id: your-shop-id" https://omnisync.izignamx.com/api/products
+```
 
 ## Endpoints
 
@@ -25,6 +29,7 @@ API requests are authenticated via Shopify session tokens. The middleware valida
 | Method | Endpoint | Description |
 |--------|----------|-------------|
 | `GET` | `/products` | List all synced products |
+| `GET` | `/products/:id` | Get single product detail |
 | `POST` | `/sync/trigger` | Trigger manual sync (full, incremental, price-only, or stock-only) |
 
 ### Channels
@@ -34,6 +39,7 @@ API requests are authenticated via Shopify session tokens. The middleware valida
 | `GET` | `/channels` | List configured channels |
 | `GET` | `/channels/metadata` | Get channel metadata and settings |
 | `PUT` | `/channels/metadata` | Update channel settings |
+| `DELETE` | `/channels/:id` | Disconnect a channel |
 
 Channels are created via platform-specific OAuth flows:
 
@@ -112,6 +118,35 @@ Channels are created via platform-specific OAuth flows:
 | `GET` | `/billing/plans` | List available plans |
 | `POST` | `/billing/subscribe` | Subscribe to a plan |
 | `GET` | `/billing/status` | Current subscription status |
+| `POST` | `/billing/cancel` | Cancel subscription |
+
+### Webhooks
+
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| `GET/POST/DELETE` | `/webhooks/config` | Manage webhook subscriptions |
+| `POST` | `/webhooks/test` | Send a test event |
+| `POST` | `/webhooks/redeliver` | Re-send a failed delivery |
+| `POST` | `/webhooks/shopify` | Shopify incoming webhook (public) |
+| `POST` | `/webhooks/mercadolibre` | Mercado Libre incoming webhook (public) |
+| `GET/POST` | `/webhooks/whatsapp` | WhatsApp incoming webhook (public) |
+| `GET/POST` | `/webhooks/instagram` | Instagram incoming webhook (public) |
+| `POST` | `/webhooks/amazon` | Amazon SNS incoming webhook (public) |
+
+### Settings
+
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| `GET` | `/settings` | Get shop settings |
+| `PUT` | `/settings` | Update shop settings |
+| `POST` | `/settings/reset` | Reset settings to defaults |
+
+### Pricing Rules
+
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| `GET/POST` | `/pricing-rules` | List / create pricing rules |
+| `GET/PUT/DELETE` | `/pricing-rules/:id` | Manage single pricing rule |
 
 ### Notifications
 
@@ -142,12 +177,14 @@ Rate limiting is applied per-channel using a token bucket algorithm:
 
 ## Error Format
 
+All error responses follow a consistent shape:
+
 ```json
 {
-  "error": {
-    "code": "RATE_LIMITED",
-    "message": "Too many requests. Retry after 60 seconds.",
-    "status": 429
-  }
+  "success": false,
+  "error": "Too many requests. Retry after 60 seconds.",
+  "details": ["field: validation message"]
 }
 ```
+
+The `details` array is optional and only present on validation errors (HTTP 400).

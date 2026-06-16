@@ -12,7 +12,6 @@ order: 1
 2. Click **Add app** and approve the required scopes:
    - `read_products`, `write_products`
    - `read_inventory`, `write_inventory`
-   - `read_price_rules`
 3. OmniSync will create a default channel configuration for your shop.
 
 ## First Channel Setup
