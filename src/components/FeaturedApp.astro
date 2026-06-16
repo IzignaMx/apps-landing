@@ -1,5 +1,6 @@
 ---
 import { type Locale, getTranslations } from '../i18n';
+import { getFeaturedApps, getPlansFor } from '../data/apps';
 
 interface Props {
   locale: Locale;
@@ -7,85 +8,124 @@ interface Props {
 
 const { locale } = Astro.props;
 const t = getTranslations(locale);
+const featuredApps = getFeaturedApps();
+
+// If no app is marked featured, the section is omitted entirely.
+
+// Merge each featured app with its localized content from t.featured
+// (which is OmniSync-specific) AND the localized plans from apps.ts.
+// To feature a second app, add a translation block for it under t.featured
+// in en.json / es.json and set featured: true in apps.ts.
+const apps = featuredApps.map((app) => {
+  // The current t.featured block is OmniSync-specific. For additional
+  // featured apps in the future, prefer adding a `t.featured.<appKey>`
+  // sub-object keyed by app. For now we use the existing flat keys.
+  const featured = t.featured;
+  const plans = getPlansFor(app.key, locale);
+  return {
+    app,
+    featured,
+    plans,
+    // When installUrl is set, the CTA is a real link. Otherwise it's the
+    // "Coming soon" badge from translations.
+    installUrl: app.installUrl,
+    showInstallButton: app.status === 'active' && Boolean(app.installUrl),
+  };
+});
 ---
 
-<section id="omnisync" class="relative py-16 md:py-24">
-  <div class="max-w-[1280px] mx-auto px-6">
-    <div class="relative rounded-xl border border-border-card bg-card overflow-hidden transition-all duration-300 hover:shadow-[0_0_60px_rgba(59,130,246,0.1)]">
-      <div class="accent-bar bg-service-webdev"></div>
+{apps.map(({ app, featured, plans, installUrl, showInstallButton }) => (
+  <section id={app.anchorId} class="relative py-16 md:py-24">
+    <div class="max-w-[1280px] mx-auto px-6">
+      <div class="relative rounded-xl border border-border-card bg-card overflow-hidden transition-all duration-300 hover:shadow-[0_0_60px_rgba(59,130,246,0.1)]">
+        <div class={`accent-bar ${app.accentClass}`}></div>
 
-      <div class="absolute top-0 right-0 w-1/2 h-full gradient-orb-blue opacity-50 pointer-events-none" aria-hidden="true"></div>
+        <div class="absolute top-0 right-0 w-1/2 h-full gradient-orb-blue opacity-50 pointer-events-none" aria-hidden="true"></div>
 
-      <div class="relative p-8 md:p-12">
-        <div class="flex flex-col lg:flex-row gap-10 lg:gap-16">
-          <div class="flex-1">
-            <div class="flex items-center gap-3 mb-4">
-              <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-service-webdev/10 border border-service-webdev/20 text-xs font-mono text-service-webdev">
-                <span class="w-1.5 h-1.5 rounded-full bg-service-webdev animate-pulse"></span>
-                {t.featured.badge}
-              </span>
-            </div>
-
-            <h2 class="font-display text-3xl md:text-5xl font-black tracking-tight mb-2">
-              {t.featured.title}
-            </h2>
-            <p class="text-izigna font-semibold text-lg mb-4">{t.featured.tagline}</p>
-            <p class="text-text-secondary leading-relaxed mb-8 max-w-xl">
-              {t.featured.description}
-            </p>
-
-            <ul class="space-y-3 mb-8">
-              {t.featured.features.map((feature: string) => (
-                <li class="flex items-start gap-3 text-text-secondary">
-                  <svg class="w-5 h-5 text-service-webdev mt-0.5 shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" /></svg>
-                  <span>{feature}</span>
-                </li>
-              ))}
-            </ul>
-
-            <div class="flex flex-col sm:flex-row items-start gap-4">
-              <div role="status" class="inline-flex items-center gap-2 px-4 py-2.5 rounded-lg bg-surface border border-border-card text-sm text-text-secondary">
-                <svg class="w-4 h-4 text-service-webdev" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
-                {t.featured.ctaDisabled}
+        <div class="relative p-8 md:p-12">
+          <div class="flex flex-col lg:flex-row gap-10 lg:gap-16">
+            <div class="flex-1">
+              <div class="flex items-center gap-3 mb-4">
+                <span class={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full ${app.accentClass}/10 border ${app.accentClass}/20 text-xs font-mono text-service-webdev`}>
+                  <span class={`w-1.5 h-1.5 rounded-full ${app.accentClass} animate-pulse`}></span>
+                  {featured.badge}
+                </span>
               </div>
-              <a href="#plans" class="btn-secondary text-sm">
-                {t.featured.plans}
-              </a>
-            </div>
-          </div>
 
-          <div class="lg:w-[380px] shrink-0">
-            <div id="plans" class="rounded-xl border border-border-card bg-bg/50 p-6">
-              <h3 class="font-display text-xl font-bold mb-6 text-center">{t.featured.plans}</h3>
+              <h2 class="font-display text-3xl md:text-5xl font-black tracking-tight mb-2">
+                {featured.title}
+              </h2>
+              <p class="text-izigna font-semibold text-lg mb-4">{featured.tagline}</p>
+              <p class="text-text-secondary leading-relaxed mb-8 max-w-xl">
+                {featured.description}
+              </p>
 
-              <ul role="list" class="space-y-4">
-                {t.featured.plansList.map((plan: { name: string; detail: string; price: string; popular?: boolean }) => (
-                  <li class:list={[
-                    'flex items-center justify-between p-3 rounded-lg bg-card relative overflow-hidden',
-                    plan.popular ? 'border border-izigna/20' : 'border border-border-card',
-                  ]}>
-                    {plan.popular && (
-                      <div class="absolute top-0 right-0 bg-izigna text-[10px] font-bold text-white px-2 py-0.5 rounded-bl">
-                        {t.featured.popular}
-                      </div>
-                    )}
-                    <div>
-                      <span class="text-sm font-semibold">{plan.name}</span>
-                      <span class="block text-xs text-text-muted">{plan.detail}</span>
-                    </div>
-                    <span class:list={[
-                      'font-mono text-sm',
-                      plan.popular ? 'text-izigna' : 'text-text-secondary',
-                    ]}>{plan.price}</span>
+              <ul class="space-y-3 mb-8">
+                {featured.features.map((feature: string) => (
+                  <li class="flex items-start gap-3 text-text-secondary">
+                    <svg class={`w-5 h-5 ${app.accentClass} mt-0.5 shrink-0`} fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" /></svg>
+                    <span>{feature}</span>
                   </li>
                 ))}
               </ul>
 
-              <p class="text-center text-xs text-text-muted mt-4">{t.featured.pricingNote}</p>
+              <div class="flex flex-col sm:flex-row items-start gap-4">
+                {showInstallButton ? (
+                  <a
+                    href={installUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="btn-primary text-sm"
+                  >
+                    {featured.cta}
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M14 5l7 7m0 0l-7 7m7-7H3" /></svg>
+                    <span class="sr-only"> (opens in new window)</span>
+                  </a>
+                ) : (
+                  <div role="status" class="inline-flex items-center gap-2 px-4 py-2.5 rounded-lg bg-surface border border-border-card text-sm text-text-secondary">
+                    <svg class={`w-4 h-4 ${app.accentClass}`} fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                    {featured.ctaDisabled}
+                  </div>
+                )}
+                <a href="#plans" class="btn-secondary text-sm">
+                  {featured.plans}
+                </a>
+              </div>
+            </div>
+
+            <div class="lg:w-[380px] shrink-0">
+              <div id="plans" class="rounded-xl border border-border-card bg-bg/50 p-6">
+                <h3 class="font-display text-xl font-bold mb-6 text-center">{featured.plans}</h3>
+
+                <ul role="list" class="space-y-4">
+                  {plans.map((plan) => (
+                    <li class:list={[
+                      'flex items-center justify-between p-3 rounded-lg bg-card relative overflow-hidden',
+                      plan.popular ? 'border border-izigna/20' : 'border border-border-card',
+                    ]}>
+                      {plan.popular && (
+                        <div class="absolute top-0 right-0 bg-izigna text-[10px] font-bold text-white px-2 py-0.5 rounded-bl">
+                          {featured.popular}
+                        </div>
+                      )}
+                      <div>
+                        <span class="text-sm font-semibold">{plan.name}</span>
+                        <span class="block text-xs text-text-muted">{plan.detail}</span>
+                      </div>
+                      <span class:list={[
+                        'font-mono text-sm',
+                        plan.popular ? 'text-izigna' : 'text-text-secondary',
+                      ]}>{plan.price}</span>
+                    </li>
+                  ))}
+                </ul>
+
+                <p class="text-center text-xs text-text-muted mt-4">{featured.pricingNote}</p>
+              </div>
             </div>
           </div>
         </div>
       </div>
     </div>
-  </div>
-</section>
+  </section>
+))}

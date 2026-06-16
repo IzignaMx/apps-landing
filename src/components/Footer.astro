@@ -1,5 +1,6 @@
 ---
 import { type Locale, getTranslations, localePath } from '../i18n';
+import { APP_CATALOG, getPublishedAppCount } from '../data/apps';
 
 interface Props {
   locale: Locale;
@@ -10,8 +11,32 @@ const t = getTranslations(locale);
 const year = new Date().getFullYear();
 const homeHref = localePath('/', locale);
 const docsHref = localePath('/docs', locale);
-const apiHref = localePath('/docs/omnisync/api', locale);
-const gettingStartedHref = localePath('/docs/omnisync/getting-started', locale);
+
+// Build the "Apps" column from the catalog. Each app links to its anchor
+// on the home page (or directly to installUrl if set).
+const appLinks = APP_CATALOG.map((app) => {
+  const tApp = (t.apps as Record<string, { name: string }> | undefined)?.[app.translationKey];
+  return {
+    key: app.key,
+    name: tApp?.name ?? app.key,
+    href: app.status === 'active' && app.installUrl ? app.installUrl : `#${app.anchorId}`,
+    external: app.status === 'active' && Boolean(app.installUrl),
+  };
+});
+
+// Build the "Resources" column from any app with docs.
+const docsLinks = APP_CATALOG.filter((app) => app.status !== 'planned').map((app) => {
+  const tApp = (t.apps as Record<string, { name: string }> | undefined)?.[app.translationKey];
+  return {
+    key: app.key,
+    name: tApp?.name ?? app.key,
+    href: localePath(`${app.docsBasePath}/getting-started`, locale),
+  };
+});
+
+// Use the published count for the (optional) "Published apps" stat —
+// ensures TrustSection + Footer never disagree.
+const publishedCount = getPublishedAppCount();
 ---
 
 <footer class="bg-footer border-t border-border-card pt-12 pb-8">
@@ -43,8 +68,19 @@ const gettingStartedHref = localePath('/docs/omnisync/getting-started', locale);
       <div>
         <div class="text-sm font-semibold text-text-primary mb-4">{t.footer.apps}</div>
         <ul class="space-y-2">
-          <li><a href="#omnisync" class="text-sm text-text-muted hover:text-izigna transition-colors duration-300">OmniSync</a></li>
-          <li><a href="#apps" class="text-sm text-text-muted hover:text-izigna transition-colors duration-300">{t.catalog.comingSoon}</a></li>
+          {appLinks.map((link) => (
+            <li>
+              <a
+                href={link.href}
+                target={link.external ? '_blank' : undefined}
+                rel={link.external ? 'noopener noreferrer' : undefined}
+                class="text-sm text-text-muted hover:text-izigna transition-colors duration-300"
+              >
+                {link.name}
+                {link.external && <span class="sr-only"> (opens in new window)</span>}
+              </a>
+            </li>
+          ))}
         </ul>
       </div>
 
@@ -52,8 +88,9 @@ const gettingStartedHref = localePath('/docs/omnisync/getting-started', locale);
         <div class="text-sm font-semibold text-text-primary mb-4">{t.footer.resources}</div>
         <ul class="space-y-2">
           <li><a href={docsHref} class="text-sm text-text-muted hover:text-izigna transition-colors duration-300">{t.footer.documentation}</a></li>
-          <li><a href={apiHref} class="text-sm text-text-muted hover:text-izigna transition-colors duration-300">{t.docs.sections.api}</a></li>
-          <li><a href={gettingStartedHref} class="text-sm text-text-muted hover:text-izigna transition-colors duration-300">{t.docs.sections['getting-started']}</a></li>
+          {docsLinks.map((link) => (
+            <li><a href={link.href} class="text-sm text-text-muted hover:text-izigna transition-colors duration-300">{link.name}</a></li>
+          ))}
         </ul>
       </div>
 

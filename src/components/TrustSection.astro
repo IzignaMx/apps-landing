@@ -1,5 +1,6 @@
 ---
 import { type Locale, getTranslations } from '../i18n';
+import { getPublishedAppCount, getVisibleAppCount } from '../data/apps';
 
 interface Props {
   locale: Locale;
@@ -8,8 +9,10 @@ interface Props {
 const { locale } = Astro.props;
 const t = getTranslations(locale);
 
+// Auto-derive "published apps" / "apps in catalog" from the catalog data
+// so the stat stays correct as new apps ship.
 const stats = [
-  { value: '1', label: t.trust.stats.apps },
+  { value: String(getPublishedAppCount()), label: t.trust.stats.apps },
   { value: '560+', label: t.trust.stats.tests },
   { value: '54', label: t.trust.stats.endpoints },
   { value: '2,500+', label: t.trust.stats.clients },

@@ -10,18 +10,23 @@ interface Props {
   name: string;
   description: string;
   platform: string;
-  status: 'active' | 'coming';
+  status: 'active' | 'coming' | 'planned';
   accentColor: string;
   iconSvg?: string;
   href?: string;
+  /** When true, opens href in a new tab (used for external install URLs). */
+  external?: boolean;
   comingSoonLabel: string;
   installLabel?: string;
   activeLabel?: string;
 }
 
-const { name, description, platform, status, accentColor, iconSvg, href, comingSoonLabel, installLabel, activeLabel } = Astro.props;
+const { name, description, platform, status, accentColor, iconSvg, href, external = false, comingSoonLabel, installLabel, activeLabel } = Astro.props;
 const isActive = status === 'active';
 const glowRgb = hexToRgb(accentColor);
+const linkAttrs = external
+  ? { target: '_blank', rel: 'noopener noreferrer' }
+  : {};
 ---
 
 <div
@@ -68,9 +73,10 @@ const glowRgb = hexToRgb(accentColor);
     <p class="text-text-secondary text-sm leading-relaxed mb-6">{description}</p>
 
     {isActive ? (
-      <a href={href || '#'} class="btn-primary text-sm">
+      <a href={href || '#'} {...linkAttrs} class="btn-primary text-sm">
         {installLabel || 'Install'}
         <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M14 5l7 7m0 0l-7 7m7-7H3" /></svg>
+        {external && <span class="sr-only"> (opens in new window)</span>}
       </a>
     ) : (
       <div class="flex items-center gap-2 text-text-muted text-sm">

@@ -4,15 +4,18 @@ import { type Locale, getLocaleFromUrl, getTranslations, getAlternateUrl, locale
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 import DocSearch from '../components/DocSearch.astro';
+import { getAppByKey } from '../data/apps';
 
 interface Props {
   title: string;
   description: string;
   locale?: Locale;
   breadcrumbs?: { label: string; href?: string }[];
+  /** Current app key — drives the sidebar navigation. */
+  appKey?: string;
 }
 
-const { title, description, breadcrumbs } = Astro.props;
+const { title, description, breadcrumbs, appKey = 'omnisync' } = Astro.props;
 const url = Astro.url;
 const locale = Astro.props.locale || getLocaleFromUrl(url);
 const t = getTranslations(locale);
@@ -20,11 +23,17 @@ const canonicalUrl = new URL(url.pathname, url.origin).href;
 const enUrl = locale === 'en' ? canonicalUrl : new URL(getAlternateUrl(url, 'en'), url.origin).href;
 const esUrl = locale === 'es' ? canonicalUrl : new URL(getAlternateUrl(url, 'es'), url.origin).href;
 
+const appMeta = getAppByKey(appKey);
+const appDisplayName =
+  (t.apps as Record<string, { name: string }> | undefined)?.[appMeta?.translationKey ?? appKey]?.name ??
+  appMeta?.key ??
+  appKey;
+
 const sectionKeys = ['getting-started', 'api', 'pricing', 'faq', 'changelog', 'guides'] as const;
 const sections = sectionKeys.map((key) => ({
   key,
   label: t.docs.sections[key],
-  href: localePath(`/docs/omnisync/${key}`, locale),
+  href: localePath(`${appMeta?.docsBasePath ?? `/docs/${appKey}`}/${key}`, locale),
 }));
 
 const currentPath = url.pathname;
@@ -92,7 +101,7 @@ const docsHomeHref = localePath('/docs', locale);
             Docs
           </a>
           <span class="text-text-muted mx-1">/</span>
-          <span class="text-xs font-mono text-izigna">OmniSync</span>
+          <span class="text-xs font-mono text-izigna">{appDisplayName}</span>
         </div>
         <nav aria-label="Documentation">
           <ul class="space-y-1">
