@@ -4,7 +4,82 @@ description: OmniSync release notes and version history.
 app: omnisync
 section: changelog
 order: 5
-updated: 2026-06-15
+lang: en
+updated: 2026-07-04
+---
+
+## v1.4.0 — July 2026
+
+Merchant readiness, safer sync simulation, and the next feature roadmap.
+
+### Store Readiness
+
+- **Setup readiness score** — OmniSync now computes readiness from real shop state: active channels, imported products, protected prices, completed syncs, billing state, and webhook setup.
+- **Dashboard checklist** — merchants see the next incomplete setup step directly in the dashboard, with accessible progress status and action links.
+- **Channel health badges** — each connected channel shows whether it is current, stale, never synced, plan-limited, or disconnected.
+- **Operational warnings** — stale channels and recent sync failures are surfaced without requiring merchants to inspect technical logs.
+
+### Sync Simulation
+
+- **Sync all channels** — dashboard and sync actions can now target all active channels supported by the merchant's plan.
+- **Dry-run mode** — merchants can preview sync impact without refreshing external tokens, consuming channel rate limits, calling external APIs, updating prices, changing `lastSyncAt`, or dispatching webhooks.
+- **Price protection previews** — dry-run output still respects locked-price checks, making it useful before running a real sync.
+
+### Roadmap Specification
+
+A new spec-development plan documents the next six product investments:
+
+- Setup Health Score Dashboard
+- Privacy Center
+- Pricing Simulator
+- AI recommendations with manual approval and audit trail
+- Weekly digest via email/webhook
+- Partner/App Pricing sync
+
+### Validation
+
+- **1046 automated tests passing**
+- **0 TypeScript errors**
+- **0 ESLint errors**
+- Production build verified with Next.js
+
+---
+
+## v1.3.0 — July 2026
+
+Shopify App Store readiness, API validation hardening, and privacy-aligned exports.
+
+### Shopify App Bridge & Billing
+
+- **Current App Bridge loading model** — the app now renders the `shopify-api-key` meta tag required by Shopify's CDN App Bridge flow.
+- **Session tokens first** — embedded admin requests prefer `window.shopify.idToken()` and keep legacy App Bridge package fallback for local/direct development.
+- **Shopify App Pricing-ready** — billing can redirect to Shopify's hosted pricing page when `NEXT_PUBLIC_SHOPIFY_APP_PRICING=true`.
+- **Cleaner billing UX** — removed unverified yearly-savings, uptime, rating, support, and merchant-count claims from plan cards.
+
+### API Hardening
+
+- Centralized Zod validation now covers pricing rules, advanced pricing, order sync, billing cancellation, webhook test/redelivery, channel metadata, import, price, and export routes.
+- Advanced pricing routes verify `channelProductId` ownership against the authenticated shop before returning or mutating data.
+- Pricing rules now return the frontend-consumed response shape and validate create/toggle payloads.
+- Routes now derive shop identity from the trusted Shopify session/proxy context instead of accepting tenant identity from request bodies.
+
+### Privacy & Data Export
+
+- Data exports now validate type, format, channel, and date range filters.
+- Large exports are capped for operational safety.
+- Export responses use `Cache-Control: no-store`.
+- Order exports are explicitly marked as containing buyer PII and show a merchant-facing warning in Settings.
+- Product exports now apply the documented date filters.
+
+### Import & Metadata
+
+- Product import validation now preserves optional SKU, image, stock, category, currency, description, and metadata fields.
+- Channel metadata updates keep a per-channel allowlist and now validate request shape before updating credentials metadata.
+
+### Documentation
+
+- Shopify production alignment docs now cover App Bridge CDN metadata, session-token expectations, App Pricing configuration, and privacy/export checks before App Store review.
+
 ---
 
 ## v1.2.0 — June 2026
