@@ -1,6 +1,6 @@
 ---
 import AppCard from './AppCard.astro';
-import { type Locale, getTranslations } from '../i18n';
+import { type Locale, getTranslations, getAppTranslation } from '../i18n';
 import { APP_CATALOG } from '../data/apps';
 
 interface Props {
@@ -15,7 +15,7 @@ const t = getTranslations(locale);
 // entry is missing makes it safe to add new apps before all locales are
 // translated.
 const apps = APP_CATALOG.map((app) => {
-  const tApp = (t.apps as Record<string, { name: string; shortDesc: string }> | undefined)?.[app.translationKey];
+  const tApp = getAppTranslation(t, app.translationKey);
   return {
     key: app.key,
     name: tApp?.name ?? app.key,

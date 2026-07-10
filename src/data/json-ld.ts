@@ -1,4 +1,5 @@
-import { APP_CATALOG, getPlansFor, type AppCatalogEntry } from '../data/apps';
+import { APP_CATALOG, getPlansFor, type AppCatalogEntry } from './apps';
+import { getTranslations, getAppTranslation } from '../i18n';
 
 /**
  * Builds the JSON-LD ItemList for the landing page from the catalog data.
@@ -44,19 +45,6 @@ export interface JsonLdOrganization {
   };
 }
 
-function appCategory(app: AppCatalogEntry): string {
-  switch (app.platform) {
-    case 'Shopify':
-    case 'BigCommerce':
-    case 'WordPress / WooCommerce':
-      return 'BusinessApplication';
-    case 'Odoo':
-      return 'BusinessApplication';
-    default:
-      return 'BusinessApplication';
-  }
-}
-
 function statusForSchema(app: AppCatalogEntry): string | undefined {
   if (app.status === 'active') return undefined; // published — omit status
   if (app.status === 'coming') return 'Planned';
@@ -79,12 +67,13 @@ export function buildOrganizationJsonLd(args: {
   description: string;
   locale: 'en' | 'es';
 }): JsonLdOrganization {
+  const t = getTranslations(args.locale);
   const itemListElement: JsonLdApp[] = APP_CATALOG.map((app, idx) => {
     const entry: JsonLdApp = {
       '@type': 'SoftwareApplication',
       position: idx + 1,
-      name: app.platform === 'Shopify' ? 'OmniSync' : `OmniSync - ${app.platform}`,
-      applicationCategory: appCategory(app),
+      name: getAppTranslation(t, app.translationKey)?.name ?? app.key,
+      applicationCategory: 'BusinessApplication',
       operatingSystem: 'Web',
     };
     const status = statusForSchema(app);
@@ -120,12 +109,13 @@ export function buildOrganizationJsonLd(args: {
  * per-app detail pages or structured data on the featured section.
  */
 export function buildAppJsonLd(app: AppCatalogEntry, locale: 'en' | 'es'): Record<string, unknown> {
+  const t = getTranslations(locale);
   const offers = offersFor(app);
   return {
     '@context': 'https://schema.org',
     '@type': 'SoftwareApplication',
-    name: app.platform === 'Shopify' ? 'OmniSync' : `OmniSync - ${app.platform}`,
-    applicationCategory: appCategory(app),
+    name: getAppTranslation(t, app.translationKey)?.name ?? app.key,
+    applicationCategory: 'BusinessApplication',
     operatingSystem: 'Web',
     ...(offers && offers.length > 0 ? { offers } : {}),
     ...(app.status !== 'active' ? { status: 'Planned' } : {}),

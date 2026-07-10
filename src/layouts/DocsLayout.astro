@@ -1,6 +1,6 @@
 ---
 import '../styles/global.css';
-import { type Locale, getLocaleFromUrl, getTranslations, getAlternateUrl, localePath } from '../i18n';
+import { type Locale, getLocaleFromUrl, getTranslations, getAlternateUrl, localePath, getAppTranslation } from '../i18n';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 import DocSearch from '../components/DocSearch.astro';
@@ -25,7 +25,7 @@ const esUrl = locale === 'es' ? canonicalUrl : new URL(getAlternateUrl(url, 'es'
 
 const appMeta = getAppByKey(appKey);
 const appDisplayName =
-  (t.apps as Record<string, { name: string }> | undefined)?.[appMeta?.translationKey ?? appKey]?.name ??
+  getAppTranslation(t, appMeta?.translationKey ?? appKey)?.name ??
   appMeta?.key ??
   appKey;
 
@@ -183,7 +183,7 @@ const docsHomeHref = localePath('/docs', locale);
         var loc = document.currentScript.getAttribute('data-locale');
         var stored;
         try { stored = localStorage.getItem('izigna-locale'); } catch(e){}
-        try { localStorage.setItem('izigna-locale', loc); } catch(e){}
+        if (stored !== loc) { try { localStorage.setItem('izigna-locale', loc); } catch(e){} }
         if (stored !== null) return;
         var nav = (navigator.language || navigator.userLanguage || '').slice(0, 2);
         if (nav === 'es' && loc !== 'es') {

@@ -79,7 +79,7 @@ const organizationJsonLd = buildOrganizationJsonLd({ description, locale });
         var loc = document.currentScript.getAttribute('data-locale');
         var stored;
         try { stored = localStorage.getItem('izigna-locale'); } catch(e){}
-        try { localStorage.setItem('izigna-locale', loc); } catch(e){}
+        if (stored !== loc) { try { localStorage.setItem('izigna-locale', loc); } catch(e){} }
         if (stored !== null) return;
         var nav = (navigator.language || navigator.userLanguage || '').slice(0, 2);
         if (nav === 'es' && loc !== 'es') {

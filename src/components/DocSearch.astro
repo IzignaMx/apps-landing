@@ -37,17 +37,29 @@ const { locale = 'en' } = Astro.props;
       });
     }
 
-    input.addEventListener('focus', loadPagefind);
+    // Load Pagefind only when the user starts typing, not on focus alone.
 
+    var pagefindLoading = false;
     input.addEventListener('input', function() {
       clearTimeout(debounceTimer);
       debounceTimer = setTimeout(function() {
-        if (!window.pagefind || !input.value.trim()) {
+        var q = input.value.trim();
+        if (!q) {
           resultsEl.classList.add('hidden');
           resultsEl.innerHTML = '';
           return;
         }
-        window.pagefind.search(input.value).then(function(results) {
+        if (!window.pagefind && !pagefindLoading) {
+          pagefindLoading = true;
+          loadPagefind().then(function() {
+            // One more pass once Pagefind is ready (trigger via fake input event)
+            var e = new Event('input');
+            input.dispatchEvent(e);
+          });
+          return;
+        }
+        if (!window.pagefind) return;
+        window.pagefind.search(q).then(function(results) {
           resultsEl.innerHTML = '';
           if (!results.results.length) {
             var empty = document.createElement('div');

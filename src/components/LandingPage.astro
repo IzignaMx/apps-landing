@@ -1,0 +1,27 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Header from './Header.astro';
+import Hero from './Hero.astro';
+import FeaturedApp from './FeaturedApp.astro';
+import AppCatalog from './AppCatalog.astro';
+import TrustSection from './TrustSection.astro';
+import Footer from './Footer.astro';
+import type { Locale } from '../i18n';
+
+export interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+---
+
+<Layout locale={locale}>
+  <Header locale={locale} />
+  <main id="main">
+    <Hero locale={locale} />
+    <FeaturedApp locale={locale} />
+    <AppCatalog locale={locale} />
+    <TrustSection locale={locale} />
+  </main>
+  <Footer locale={locale} />
+</Layout>

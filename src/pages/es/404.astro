@@ -1,28 +1,8 @@
 ---
-import Layout from '../../layouts/Layout.astro';
-import Header from '../../components/Header.astro';
-import Footer from '../../components/Footer.astro';
-import { getTranslations, localePath } from '../../i18n';
+import NotFoundPage from '../../components/NotFoundPage.astro';
 import type { Locale } from '../../i18n';
 
 const locale: Locale = 'es';
-const t = getTranslations(locale);
-const homeHref = localePath('/', locale);
-const docsHref = localePath('/docs', locale);
 ---
 
-<Layout title={t.notFound.title} description={t.notFound.description} locale={locale} noindex>
-  <Header locale={locale} />
-  <main id="main" class="flex-1 flex items-center justify-center py-32">
-    <div class="text-center max-w-lg mx-auto px-6">
-      <p class="font-display text-8xl md:text-9xl font-black text-izigna/20 mb-4">404</p>
-      <h1 class="font-display text-2xl md:text-3xl font-bold mb-4">{t.notFound.title}</h1>
-      <p class="text-text-secondary mb-8">{t.notFound.description}</p>
-      <div class="flex flex-col sm:flex-row items-center justify-center gap-3">
-        <a href={homeHref} class="btn-primary">{t.notFound.cta}</a>
-        <a href={docsHref} class="btn-primary bg-transparent border border-border-card text-text-primary hover:border-izigna/30 hover:bg-izigna/5">{t.nav.docs}</a>
-      </div>
-    </div>
-  </main>
-  <Footer locale={locale} />
-</Layout>
+<NotFoundPage locale={locale} />

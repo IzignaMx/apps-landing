@@ -1,29 +1,17 @@
 ---
-import DocsLayout from '../../../layouts/DocsLayout.astro';
-import { getCollection, render } from 'astro:content';
-import { type Locale, getTranslations, localePath } from '../../../i18n';
+import DocDetailPage from '../../../components/DocDetailPage.astro';
+import { getCollection } from 'astro:content';
+import { type Locale } from '../../../i18n';
 import { getAppByKey } from '../../../data/apps';
 
-/**
- * Dynamic per-app doc page.
- *
- * Route: /docs/[app]/[slug]
- *
- * Replaces the hardcoded /docs/omnisync/[slug] route. For each entry in
- * APP_CATALOG with docs, this generates the full set of doc slugs. New
- * apps get docs pages automatically once they have markdown files in
- * src/content/docs/<app>/.
- */
 export async function getStaticPaths() {
   const docs = await getCollection('docs');
-  const paths = [];
+  const paths: { params: { app: string; slug: string }; props: { entry: any; locale: Locale } }[] = [];
 
   for (const entry of docs) {
-    // entry.id has the form `<app>/<slug>` (e.g. `omnisync/api`).
     const [appKey, ...slugParts] = entry.id.split('/');
     if (!appKey || slugParts.length === 0) continue;
     const slug = slugParts.join('/');
-    // Only generate routes for apps we know about in the catalog.
     if (!getAppByKey(appKey)) continue;
 
     paths.push({
@@ -34,76 +22,5 @@ export async function getStaticPaths() {
 
   return paths;
 }
-
-const { entry, locale } = Astro.props;
-const { Content } = await render(entry);
-const t = getTranslations(locale);
-
-const appKey = entry.data.app;
-const appMeta = getAppByKey(appKey);
-
-// Build the in-app navigation: all docs for this app, sorted by order.
-const allDocs = await getCollection('docs');
-const sorted = allDocs
-  .filter((d) => d.data.app === appKey)
-  .sort((a, b) => a.data.order - b.data.order);
-const currentIndex = sorted.findIndex((d) => d.id === entry.id);
-const prevDoc = currentIndex > 0 ? sorted[currentIndex - 1] : null;
-const nextDoc = currentIndex < sorted.length - 1 ? sorted[currentIndex + 1] : null;
-
-const appDisplayName =
-  (t.apps as Record<string, { name: string }> | undefined)?.[appMeta?.translationKey ?? appKey]?.name ??
-  appMeta?.key ??
-  appKey;
-
-const breadcrumbs = [
-  { label: t.docs.title, href: localePath('/docs', locale) },
-  { label: appDisplayName, href: localePath(`${appMeta?.docsBasePath ?? `/docs/${appKey}`}/getting-started`, locale) },
-  { label: t.docs.sections[entry.data.section] || entry.data.section },
-];
 ---
-
-<DocsLayout title={entry.data.title} description={entry.data.description} locale={locale} breadcrumbs={breadcrumbs} appKey={appKey}>
-  <header class="mb-8 not-prose">
-    <div class="flex items-center gap-2 mb-2">
-      <span class="text-xs font-mono text-izigna uppercase tracking-widest">{appDisplayName}</span>
-      <span class="text-text-muted">&middot;</span>
-      <span class="text-xs font-mono text-text-muted uppercase tracking-widest">{entry.data.section}</span>
-    </div>
-    <h1 class="font-display text-3xl md:text-4xl font-black tracking-tight">{entry.data.title}</h1>
-    <p class="text-text-secondary mt-2">{entry.data.description}</p>
-    {entry.data.updated && (
-      <p class="text-xs text-text-muted mt-3 font-mono">
-        {t.docs.lastUpdated}: {entry.data.updated.toLocaleDateString(locale === 'es' ? 'es-ES' : 'en-US', { year: 'numeric', month: 'long', day: 'numeric' })}
-      </p>
-    )}
-  </header>
-  <Content />
-
-  {(prevDoc || nextDoc) && (
-    <nav class="not-prose mt-12 pt-6 border-t border-border-card flex items-center justify-between gap-4" aria-label="Doc navigation">
-      {prevDoc ? (
-        <a
-          href={localePath(`/docs/${prevDoc.id}`, locale)}
-          class="group flex flex-col items-start text-left p-3 -ml-3 rounded-lg hover:bg-card transition-colors max-w-[45%]"
-        >
-          <span class="text-xs text-text-muted mb-1">{t.docs.previous}</span>
-          <span class="text-sm font-semibold text-text-primary group-hover:text-izigna transition-colors">
-            &larr; {prevDoc.data.title}
-          </span>
-        </a>
-      ) : <div />}
-      {nextDoc ? (
-        <a
-          href={localePath(`/docs/${nextDoc.id}`, locale)}
-          class="group flex flex-col items-end text-right p-3 -mr-3 rounded-lg hover:bg-card transition-colors max-w-[45%]"
-        >
-          <span class="text-xs text-text-muted mb-1">{t.docs.next}</span>
-          <span class="text-sm font-semibold text-text-primary group-hover:text-izigna transition-colors">
-            {nextDoc.data.title} &rarr;
-          </span>
-        </a>
-      ) : <div />}
-    </nav>
-  )}
-</DocsLayout>
+<DocDetailPage {...Astro.props} />

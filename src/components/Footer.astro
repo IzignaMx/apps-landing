@@ -1,5 +1,5 @@
 ---
-import { type Locale, getTranslations, localePath } from '../i18n';
+import { type Locale, getTranslations, localePath, getAppTranslation } from '../i18n';
 import { APP_CATALOG, getPublishedAppCount } from '../data/apps';
 
 interface Props {
@@ -15,7 +15,7 @@ const docsHref = localePath('/docs', locale);
 // Build the "Apps" column from the catalog. Each app links to its anchor
 // on the home page (or directly to installUrl if set).
 const appLinks = APP_CATALOG.map((app) => {
-  const tApp = (t.apps as Record<string, { name: string }> | undefined)?.[app.translationKey];
+  const tApp = getAppTranslation(t, app.translationKey);
   return {
     key: app.key,
     name: tApp?.name ?? app.key,
@@ -26,7 +26,7 @@ const appLinks = APP_CATALOG.map((app) => {
 
 // Build the "Resources" column from any app with docs.
 const docsLinks = APP_CATALOG.filter((app) => app.status !== 'planned').map((app) => {
-  const tApp = (t.apps as Record<string, { name: string }> | undefined)?.[app.translationKey];
+  const tApp = getAppTranslation(t, app.translationKey);
   return {
     key: app.key,
     name: tApp?.name ?? app.key,

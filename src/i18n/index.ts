@@ -10,6 +10,16 @@ export function getTranslations(locale: Locale): TranslationKeys {
   return translations[locale] || translations.en;
 }
 
+export interface AppTranslation {
+  name: string;
+  shortDesc: string;
+}
+
+/** Typed accessor for app translations — replaces scattered `as Record` assertions. */
+export function getAppTranslation(t: TranslationKeys, key: string): AppTranslation | undefined {
+  return (t.apps as Record<string, AppTranslation> | undefined)?.[key];
+}
+
 export function getLocaleFromUrl(url: URL): Locale {
   return getLocaleFromPathname(url.pathname);
 }

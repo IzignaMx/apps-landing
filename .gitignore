@@ -13,6 +13,9 @@ yarn-error.log*
 pnpm-debug.log*
 
 
+# opencode runtime — global only (C:\Users\edgar\.opencode\)
+.opencode/
+
 # environment variables
 .env
 .env.production
