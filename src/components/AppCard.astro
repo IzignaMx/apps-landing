@@ -64,7 +64,7 @@ const linkAttrs = external
           {activeLabel || 'Active'}
         </span>
       ) : (
-        <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-text-muted/10 border border-text-muted/20 text-xs font-mono text-text-muted">
+        <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-text-muted/10 border border-text-muted/20 text-xs font-mono text-text-secondary">
           {comingSoonLabel}
         </span>
       )}
@@ -79,7 +79,7 @@ const linkAttrs = external
         {external && <span class="sr-only"> (opens in new window)</span>}
       </a>
     ) : (
-      <div class="flex items-center gap-2 text-text-muted text-sm">
+      <div class="flex items-center gap-2 text-text-secondary text-sm">
         <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
         {comingSoonLabel}
       </div>

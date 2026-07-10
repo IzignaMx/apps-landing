@@ -32,7 +32,7 @@ const appDisplayName =
 const breadcrumbs = [
   { label: t.docs.title, href: localePath('/docs', locale) },
   { label: appDisplayName, href: localePath(`${appMeta?.docsBasePath ?? `/docs/${appKey}`}/getting-started`, locale) },
-  { label: t.docs.sections[entry.data.section] || entry.data.section },
+  { label: t.docs.sections[entry.data.section as keyof typeof t.docs.sections] || entry.data.section },
 ];
 ---
 
@@ -45,11 +45,15 @@ const breadcrumbs = [
     </div>
     <h1 class="font-display text-3xl md:text-4xl font-black tracking-tight">{entry.data.title}</h1>
     <p class="text-text-secondary mt-2">{entry.data.description}</p>
-    {entry.data.updated && (
-      <p class="text-xs text-text-muted mt-3 font-mono">
-        {t.docs.lastUpdated}: {entry.data.updated.toLocaleDateString(locale === 'es' ? 'es-ES' : 'en-US', { year: 'numeric', month: 'long', day: 'numeric' })}
-      </p>
-    )}
+    <p class="text-xs text-text-muted mt-3 font-mono flex items-center gap-2">
+      <span>{t.footer.madeBy} <strong class="text-text-secondary">IzignaMx</strong></span>
+      {entry.data.updated && (
+        <>
+          <span aria-hidden="true">·</span>
+          <span>{t.docs.lastUpdated}: {entry.data.updated.toLocaleDateString(locale === 'es' ? 'es-ES' : 'en-US', { year: 'numeric', month: 'long', day: 'numeric' })}</span>
+        </>
+      )}
+    </p>
   </header>
   <Content />
 

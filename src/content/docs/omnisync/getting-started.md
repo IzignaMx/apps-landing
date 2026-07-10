@@ -4,9 +4,14 @@ description: Install OmniSync and configure your first channel in under 5 minute
 app: omnisync
 section: getting-started
 order: 1
+updated: 2026-07-04
 ---
 
-## Installation
+## What is OmniSync?
+
+OmniSync is a multi-channel inventory sync and price protection app for Shopify merchants. It synchronizes products, stock levels, prices, and orders across four sales channels — Mercado Libre, WhatsApp Business, Amazon, and Instagram Shopping — from a single dashboard. The app prevents accidental price overwrites with per-channel price locks and supports eight price rule types: manual, formula, margin, competitor-based, cost-plus, multi-currency, floor/ceiling, and scheduled. Built with 585+ automated tests and 54+ REST API endpoints across 21 groups, OmniSync handles real-time sync events via SSE streams and secures all credentials with AES-256-GCM encryption. Webhook integrations use HMAC-SHA256 signature verification for payload integrity. Plans range from a 14-day free trial ($0) to Enterprise ($59.99/month) with 1-minute sync intervals. Development and support by IzignaMx, a Mexican software agency.
+
+## How to install OmniSync on Shopify
 
 1. Visit the [Shopify App Store](https://apps.shopify.com/) and search for **OmniSync**.
 2. Click **Add app** and approve the required scopes:
@@ -14,7 +19,7 @@ order: 1
    - `read_inventory`, `write_inventory`
 3. OmniSync will create a default channel configuration for your shop.
 
-## First Channel Setup
+## How to connect your first sales channel
 
 After installation, you'll land on the dashboard. To connect your first channel:
 

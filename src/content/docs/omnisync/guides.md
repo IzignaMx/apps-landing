@@ -4,6 +4,7 @@ description: Advanced workflows, best practices, and integration guides for Omni
 app: omnisync
 section: guides
 order: 6
+updated: 2026-07-04
 ---
 
 ## Price Protection Best Practices

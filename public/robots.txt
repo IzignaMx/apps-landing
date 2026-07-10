@@ -1,4 +1,20 @@
+# AI search crawlers — allowed for GEO visibility
+User-agent: GPTBot
+Allow: /
+
+User-agent: OAI-SearchBot
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+# General crawlers
 User-agent: *
 Allow: /
+Disallow: /fonts/
+Disallow: /images/
 
 Sitemap: https://apps.izignamx.com/sitemap-index.xml

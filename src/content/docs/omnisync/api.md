@@ -4,9 +4,10 @@ description: OmniSync REST API endpoints for inventory sync, price management, a
 app: omnisync
 section: api
 order: 2
+updated: 2026-07-04
 ---
 
-## Base URL
+## How does the OmniSync API work?
 
 ```
 https://omnisync.izignamx.com/api

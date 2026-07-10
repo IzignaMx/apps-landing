@@ -4,9 +4,10 @@ description: OmniSync plans — from free trial to enterprise. Compare features 
 app: omnisync
 section: pricing
 order: 3
+updated: 2026-07-04
 ---
 
-## Plans
+## How much does OmniSync cost?
 
 | Feature | Free Trial | Starter | Growth | Pro | Enterprise |
 |---------|-----------|---------|--------|-----|------------|

@@ -4,6 +4,7 @@ description: Frequently asked questions about OmniSync installation, pricing, an
 app: omnisync
 section: faq
 order: 4
+updated: 2026-07-04
 ---
 
 ## General

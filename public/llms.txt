@@ -1,0 +1,25 @@
+# IzignaMx Apps
+> Professional Shopify apps built by IzignaMx, a Mexican software agency. Multi-channel inventory sync, price protection, AI-powered suggestions, and more.
+
+## Apps
+- [OmniSync](https://apps.izignamx.com/): Multi-channel inventory sync with price protection for Shopify. Sync across Mercado Libre, WhatsApp Business, Amazon, and Instagram.
+- [OmniSync Odoo](https://apps.izignamx.com/): Bidirectional inventory, product, and order sync with Odoo ERP.
+- [OmniSync BigCommerce](https://apps.izignamx.com/): Multi-channel sync with price protection for BigCommerce.
+- [OmniSync WooCommerce](https://apps.izignamx.com/): WooCommerce marketplace and sales channel integration.
+
+## Documentation
+- [Getting Started](https://apps.izignamx.com/docs/omnisync/getting-started): Install OmniSync and configure your first channel in under 5 minutes.
+- [API Reference](https://apps.izignamx.com/docs/omnisync/api): OmniSync REST API — 54+ endpoints across 21 groups for inventory sync, price management, and channel configuration.
+- [Pricing](https://apps.izignamx.com/docs/omnisync/pricing): Plans from free trial ($0) to Enterprise ($59.99/mo). Compare features, limits, and sync intervals.
+- [FAQ](https://apps.izignamx.com/docs/omnisync/faq): Frequently asked questions about installation, pricing, and technical usage.
+- [Changelog](https://apps.izignamx.com/docs/omnisync/changelog): Release history — 585+ automated tests, 15 data models, AES-256-GCM encryption.
+- [Guides](https://apps.izignamx.com/docs/omnisync/guides): Advanced workflows — price protection, multi-currency, channel integration, webhooks.
+
+## Key Facts
+- 4 supported channels: Mercado Libre, WhatsApp Business, Amazon, Instagram Shopping
+- 585+ automated tests with 1,395+ assertions
+- 54+ REST API endpoints across 21 groups
+- AES-256-GCM credential encryption
+- HMAC-SHA256 webhook signatures
+- Plans from $0 (14-day trial) to $59.99/mo (Enterprise)
+- Built by IzignaMx — Mexican software agency
